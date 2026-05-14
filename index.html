@@ -8,221 +8,245 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <style>
     :root {
-      --bg: #020617;
-      --surface: rgba(15, 23, 42, 0.92);
-      --surface2: rgba(22, 33, 62, 0.88);
-      --text: #e2e8f0;
-      --subtext: #94a3b8;
-      --border: #1e2d4a;
-      --border-mid: #2d4a7a;
-      --accent: #3b82f6;
-      --accent2: #60a5fa;
-      --accent-glow: rgba(59,130,246,0.35);
-      --danger: #ef4444;
-      --danger-glow: rgba(239,68,68,0.3);
-      --radius: 16px;
-      --radius-sm: 10px;
+      --bg:#020617; --surface:rgba(15,23,42,.92); --surface2:rgba(22,33,62,.88);
+      --text:#e2e8f0; --subtext:#94a3b8; --border:#1e2d4a; --border-mid:#2d4a7a;
+      --accent:#3b82f6; --accent2:#60a5fa; --accent-glow:rgba(59,130,246,.35);
+      --danger:#ef4444; --danger-glow:rgba(239,68,68,.3);
+      --radius:16px; --radius-sm:10px;
     }
-    * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-    body {
-      font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
       background:radial-gradient(ellipse at top left,#0f172a 0%,#020617 55%,#000d1a 100%);
-      color:var(--text);
-      min-height:100vh; min-height:100dvh;
-      display:flex; align-items:stretch; justify-content:center;
-      overflow:hidden; overscroll-behavior:none;
-    }
-    .app-shell {
-      width:100%; max-width:480px; margin:0 auto;
-      padding:14px; display:flex; flex-direction:column; max-height:100dvh;
-    }
-    .card {
-      background:var(--surface); border-radius:20px;
-      border:1px solid var(--border);
-      box-shadow:0 20px 60px rgba(0,0,0,0.7),0 0 0 1px rgba(59,130,246,0.07) inset;
-      padding:18px; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
-      flex:1; display:flex; flex-direction:column;
-      position:relative; overflow:hidden; min-height:0;
-    }
-    .section { display:none; flex-direction:column; flex:1; min-height:0; }
-    .section.active { display:flex; animation:fadeUp .22s ease-out; }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+      color:var(--text);min-height:100vh;min-height:100dvh;
+      display:flex;align-items:stretch;justify-content:center;
+      overflow:hidden;overscroll-behavior:none}
+    .app-shell{width:100%;max-width:480px;margin:0 auto;padding:14px;display:flex;flex-direction:column;max-height:100dvh}
+    .card{background:var(--surface);border-radius:20px;border:1px solid var(--border);
+      box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 0 1px rgba(59,130,246,.07) inset;
+      padding:18px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+      flex:1;display:flex;flex-direction:column;position:relative;overflow:hidden;min-height:0}
+    .section{display:none;flex-direction:column;flex:1;min-height:0}
+    .section.active{display:flex;animation:fadeUp .22s ease-out}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
     /* BUTTONS */
-    .btn {
-      width:100%; border-radius:999px; padding:12px 18px; border:1px solid transparent;
-      background:linear-gradient(135deg,var(--accent),#1d4ed8);
-      color:white; font-weight:700; font-size:.95rem; cursor:pointer;
-      display:inline-flex; align-items:center; justify-content:center; gap:7px;
-      transition:all .15s ease; box-shadow:0 8px 24px var(--accent-glow);
-    }
-    .btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px var(--accent-glow);}
-    .btn:active{transform:scale(.97);}
-    .btn-secondary{background:var(--surface2);border:1px solid var(--border-mid);color:var(--text);box-shadow:none;}
-    .btn-secondary:hover{background:rgba(30,45,74,.95);}
-    .btn-danger{background:linear-gradient(135deg,#dc2626,#991b1b);box-shadow:0 6px 20px var(--danger-glow);}
-    .btn-success{background:linear-gradient(135deg,#16a34a,#15803d);box-shadow:0 6px 18px rgba(22,163,74,.3);}
-    .btn-warning{background:linear-gradient(135deg,#d97706,#b45309);box-shadow:none;}
-    .btn-sm{width:auto;padding:6px 14px;font-size:.8rem;border-radius:999px;font-weight:600;}
-    .btn-xs{width:auto;padding:4px 10px;font-size:.72rem;border-radius:999px;font-weight:600;}
+    .btn{width:100%;border-radius:999px;padding:12px 18px;border:1px solid transparent;
+      background:linear-gradient(135deg,var(--accent),#1d4ed8);color:white;font-weight:700;
+      font-size:.95rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+      gap:7px;transition:all .15s;box-shadow:0 8px 24px var(--accent-glow)}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px var(--accent-glow)}
+    .btn:active{transform:scale(.97)}
+    .btn-secondary{background:var(--surface2);border:1px solid var(--border-mid);color:var(--text);box-shadow:none}
+    .btn-secondary:hover{background:rgba(30,45,74,.95)}
+    .btn-danger{background:linear-gradient(135deg,#dc2626,#991b1b);box-shadow:0 6px 20px var(--danger-glow)}
+    .btn-success{background:linear-gradient(135deg,#16a34a,#15803d);box-shadow:0 6px 18px rgba(22,163,74,.3)}
+    .btn-warning{background:linear-gradient(135deg,#d97706,#b45309);box-shadow:none}
+    .btn-purple{background:linear-gradient(135deg,#7c3aed,#5b21b6);box-shadow:0 6px 18px rgba(124,58,237,.3)}
+    .btn-sm{width:auto;padding:6px 14px;font-size:.8rem;border-radius:999px;font-weight:600}
+    .btn-xs{width:auto;padding:4px 10px;font-size:.72rem;border-radius:999px;font-weight:600}
 
     /* TOPBAR */
-    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-shrink:0;flex-wrap:wrap;gap:8px;z-index:10;}
-    .topbar-title{font-size:1.05rem;font-weight:700;}
-    .topbar-sub{font-size:.75rem;color:var(--subtext);margin-top:2px;}
-    .user-email{font-size:.72rem;color:var(--subtext);}
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-shrink:0;flex-wrap:wrap;gap:8px;z-index:10}
+    .topbar-title{font-size:1.05rem;font-weight:700}
+    .topbar-sub{font-size:.75rem;color:var(--subtext);margin-top:2px}
+    .user-email{font-size:.72rem;color:var(--subtext)}
 
     /* LOGIN */
-    .login-wrap{margin:auto 0;padding:24px 0;}
-    .login-logo{font-size:3rem;text-align:center;margin-bottom:10px;}
-    .login-title{
-      font-size:2.1rem;font-weight:900;text-align:center;margin-bottom:6px;
+    .login-wrap{margin:auto 0;padding:24px 0}
+    .login-logo{font-size:3rem;text-align:center;margin-bottom:10px}
+    .login-title{font-size:2.1rem;font-weight:900;text-align:center;margin-bottom:6px;
       background:linear-gradient(135deg,#60a5fa,#93c5fd,#bfdbfe);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-      letter-spacing:-.02em;
-    }
-    .login-sub{text-align:center;color:var(--subtext);font-size:.85rem;margin-bottom:32px;}
-    .google-btn{
-      width:100%;padding:14px;border-radius:999px;
-      background:white;border:none;color:#1a1a1a;
-      font-weight:700;font-size:.95rem;cursor:pointer;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .login-sub{text-align:center;color:var(--subtext);font-size:.85rem;margin-bottom:32px}
+    .google-btn{width:100%;padding:14px;border-radius:999px;background:white;border:none;
+      color:#1a1a1a;font-weight:700;font-size:.95rem;cursor:pointer;
       display:flex;align-items:center;justify-content:center;gap:10px;
-      transition:all .15s;box-shadow:0 8px 28px rgba(0,0,0,.45);
-    }
-    .google-btn:hover{background:#f0f4ff;transform:translateY(-1px);}
-    .google-btn:active{transform:scale(.97);}
+      transition:all .15s;box-shadow:0 8px 28px rgba(0,0,0,.45)}
+    .google-btn:hover{background:#f0f4ff;transform:translateY(-1px)}
 
     /* SEARCH */
-    .search-wrap{position:relative;margin-bottom:10px;flex-shrink:0;}
-    .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--subtext);pointer-events:none;}
-    .search-input{
-      width:100%;padding:9px 14px 9px 36px;
-      background:var(--surface2);border:1px solid var(--border-mid);
-      border-radius:999px;color:var(--text);font-size:.88rem;outline:none;transition:border-color .2s;
-    }
-    .search-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,130,246,.2);}
-    .search-input::placeholder{color:var(--subtext);}
+    .search-wrap{position:relative;margin-bottom:10px;flex-shrink:0}
+    .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--subtext);pointer-events:none}
+    .search-input{width:100%;padding:9px 14px 9px 36px;background:var(--surface2);
+      border:1px solid var(--border-mid);border-radius:999px;color:var(--text);
+      font-size:.88rem;outline:none;transition:border-color .2s}
+    .search-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,130,246,.2)}
+    .search-input::placeholder{color:var(--subtext)}
 
-    /* SCROLLABLE */
-    .list-scroll{flex:1;overflow-y:auto;min-height:0;padding-bottom:8px;}
-    .list-scroll::-webkit-scrollbar{width:4px;}
-    .list-scroll::-webkit-scrollbar-track{background:transparent;}
-    .list-scroll::-webkit-scrollbar-thumb{background:var(--border-mid);border-radius:4px;}
+    /* LIST */
+    .list-scroll{flex:1;overflow-y:auto;min-height:0;padding-bottom:8px}
+    .list-scroll::-webkit-scrollbar{width:4px}
+    .list-scroll::-webkit-scrollbar-thumb{background:var(--border-mid);border-radius:4px}
 
     /* KAMUS ITEM */
-    .kamus-item{
-      background:var(--surface2);border:1px solid var(--border);
-      border-radius:var(--radius-sm);padding:11px 13px;margin-bottom:7px;
-      display:flex;align-items:center;gap:8px;transition:border-color .2s,box-shadow .2s;
-    }
-    .kamus-item:hover{border-color:var(--border-mid);box-shadow:0 4px 14px rgba(0,0,0,.3);}
-    .kamus-name-input{
-      flex:1;background:transparent;border:none;border-bottom:1px solid var(--border-mid);
-      color:var(--text);font-weight:600;font-size:.9rem;padding:2px 4px;outline:none;
-    }
-    .kamus-name-input:focus{border-bottom-color:var(--accent);}
-    .kamus-open-btn{
-      background:rgba(59,130,246,.14);border:1px solid rgba(59,130,246,.38);
-      color:var(--accent2);border-radius:8px;padding:6px 12px;
-      font-size:.76rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s;
-    }
-    .kamus-open-btn:hover{background:rgba(59,130,246,.26);}
+    .kamus-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);
+      padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:8px;
+      transition:border-color .2s,box-shadow .2s}
+    .kamus-item:hover{border-color:var(--border-mid);box-shadow:0 4px 14px rgba(0,0,0,.3)}
+    .kamus-name-input{flex:1;background:transparent;border:none;border-bottom:1px solid var(--border-mid);
+      color:var(--text);font-weight:600;font-size:.9rem;padding:2px 4px;outline:none}
+    .kamus-name-input:focus{border-bottom-color:var(--accent)}
+    .kamus-open-btn{background:rgba(59,130,246,.14);border:1px solid rgba(59,130,246,.38);
+      color:var(--accent2);border-radius:8px;padding:6px 12px;font-size:.76rem;font-weight:700;
+      cursor:pointer;white-space:nowrap;transition:all .15s}
+    .kamus-open-btn:hover{background:rgba(59,130,246,.26)}
 
     /* EMPTY */
-    .empty-state{text-align:center;padding:36px 16px;color:var(--subtext);font-size:.85rem;display:flex;flex-direction:column;align-items:center;gap:10px;}
-    .empty-icon{font-size:2.4rem;opacity:.4;}
+    .empty-state{text-align:center;padding:36px 16px;color:var(--subtext);font-size:.85rem;
+      display:flex;flex-direction:column;align-items:center;gap:10px}
+    .empty-icon{font-size:2.4rem;opacity:.4}
 
-    /* UPLOAD ZONE */
-    .upload-zone{
-      border:2px dashed var(--border-mid);border-radius:var(--radius);
+    /* UPLOAD */
+    .upload-zone{border:2px dashed var(--border-mid);border-radius:var(--radius);
       padding:16px;text-align:center;cursor:pointer;margin-bottom:8px;flex-shrink:0;
-      transition:border-color .2s,background .2s;position:relative;
-    }
-    .upload-zone:hover,.upload-zone.drag-over{border-color:var(--accent);background:rgba(59,130,246,.05);}
-    .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-    .upload-zone-icon{font-size:1.8rem;pointer-events:none;}
-    .upload-zone-text{font-size:.82rem;color:var(--subtext);pointer-events:none;margin-top:6px;}
-    .upload-format-hint{font-size:.7rem;color:#64748b;margin-top:2px;}
+      transition:border-color .2s,background .2s;position:relative}
+    .upload-zone:hover,.upload-zone.drag-over{border-color:var(--accent);background:rgba(59,130,246,.05)}
+    .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+    .upload-zone-icon{font-size:1.8rem;pointer-events:none}
+    .upload-zone-text{font-size:.82rem;color:var(--subtext);pointer-events:none;margin-top:6px}
+    .upload-format-hint{font-size:.7rem;color:#64748b;margin-top:2px}
+
+    /* QUEUE STATUS */
+    .queue-status{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);
+      border-radius:8px;padding:6px 12px;margin-bottom:6px;font-size:.76rem;
+      color:var(--accent2);font-weight:600;flex-shrink:0;display:none}
 
     /* PROGRESS */
-    #upload-progress-list{margin-bottom:8px;flex-shrink:0;}
-    .upload-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:5px;}
-    .upload-item-name{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-    .upload-bar-wrap{width:100%;height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
-    .upload-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .15s ease;}
-    .upload-pct{font-size:.68rem;color:var(--subtext);margin-top:2px;}
+    #upload-progress-list{margin-bottom:6px;flex-shrink:0}
+    .upload-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:5px}
+    .upload-item-name{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .upload-bar-wrap{width:100%;height:4px;background:var(--border);border-radius:4px;overflow:hidden}
+    .upload-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .15s ease}
+    .upload-pct{font-size:.68rem;color:var(--subtext);margin-top:2px}
 
     /* TRASH */
-    .trash-section{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.22);border-radius:var(--radius-sm);padding:9px 11px;margin-bottom:8px;flex-shrink:0;}
-    .trash-header{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;color:#fca5a5;cursor:pointer;user-select:none;}
-    .trash-item{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);border-radius:8px;padding:7px 9px;margin-top:6px;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;}
-    .trash-img{width:42px;height:42px;border-radius:6px;object-fit:cover;border:1px solid rgba(239,68,68,.25);flex-shrink:0;cursor:pointer;}
-    .trash-info{flex:1;min-width:120px;}
-    .trash-name-input{width:100%;background:rgba(0,0,0,.2);border:1px solid rgba(239,68,68,.28);border-radius:6px;color:var(--text);padding:4px 8px;font-size:.78rem;outline:none;}
-    .trash-name-input:focus{border-color:var(--accent);}
-    .trash-hint{font-size:.66rem;color:#fca5a5;margin-top:3px;}
-    .trash-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+    .trash-section{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.22);
+      border-radius:var(--radius-sm);padding:9px 11px;margin-bottom:8px;flex-shrink:0}
+    .trash-header{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;
+      color:#fca5a5;cursor:pointer;user-select:none}
+    .trash-item{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);
+      border-radius:8px;padding:7px 9px;margin-top:6px;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+    .trash-thumb{width:42px;height:42px;border-radius:6px;background:rgba(239,68,68,.12);
+      border:1px solid rgba(239,68,68,.25);flex-shrink:0;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+    .trash-info{flex:1;min-width:120px}
+    .trash-name-input{width:100%;background:rgba(0,0,0,.2);border:1px solid rgba(239,68,68,.28);
+      border-radius:6px;color:var(--text);padding:4px 8px;font-size:.78rem;outline:none}
+    .trash-name-input:focus{border-color:var(--accent)}
+    .trash-hint{font-size:.66rem;color:#fca5a5;margin-top:3px}
+    .trash-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
 
     /* PAGE ITEM */
-    .page-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:7px;transition:border-color .2s;}
-    .page-item.is-done{border-color:rgba(34,197,94,.32);background:rgba(22,163,74,.05);}
-    .page-item-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-    .page-thumb{width:52px;height:52px;border-radius:8px;object-fit:cover;border:1px solid var(--border);cursor:pointer;flex-shrink:0;transition:transform .15s;background:var(--border);}
-    .page-thumb:hover{transform:scale(1.06);}
-    .page-ms-name{
-      flex:1;font-weight:800;font-size:1.05rem;
+    .page-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);
+      padding:10px 12px;margin-bottom:7px;transition:border-color .2s}
+    .page-item.is-done{border-color:rgba(34,197,94,.32);background:rgba(22,163,74,.05)}
+    .page-item-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+
+    /* ── PLACEHOLDER (lazy load, no img request) ── */
+    .img-placeholder{width:52px;height:56px;background:rgba(59,130,246,.1);
+      border:1px solid rgba(59,130,246,.28);border-radius:8px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      flex-shrink:0;cursor:pointer;gap:2px;transition:background .15s;user-select:none}
+    .img-placeholder:hover{background:rgba(59,130,246,.22)}
+    .img-placeholder.done-ph{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3)}
+    .img-placeholder.done-ph:hover{background:rgba(34,197,94,.2)}
+    .ph-ms{font-size:.54rem;font-weight:800;letter-spacing:.04em;text-align:center;line-height:1}
+
+    .page-ms-name{flex:1;font-weight:800;font-size:1.05rem;
       background:linear-gradient(135deg,var(--accent2),#93c5fd);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-    }
-    .done-badge{padding:3px 9px;border-radius:999px;font-size:.68rem;font-weight:700;background:rgba(34,197,94,.14);color:#86efac;border:1px solid rgba(34,197,94,.3);}
-    .page-actions{display:flex;gap:5px;flex-wrap:wrap;}
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .done-badge{padding:3px 9px;border-radius:999px;font-size:.68rem;font-weight:700;
+      background:rgba(34,197,94,.14);color:#86efac;border:1px solid rgba(34,197,94,.3)}
+    .page-actions{display:flex;gap:5px;flex-wrap:wrap}
 
     /* DONE */
-    .done-count-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.28);font-size:.76rem;color:#86efac;font-weight:600;}
-    .chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;border:1px solid var(--border-mid);font-size:.7rem;color:var(--subtext);background:var(--surface2);}
+    .done-count-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;
+      border-radius:999px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.28);
+      font-size:.76rem;color:#86efac;font-weight:600}
+    .chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;
+      border:1px solid var(--border-mid);font-size:.7rem;color:var(--subtext);background:var(--surface2)}
+
+    /* ── MISSING MS MODAL ── */
+    #missing-modal{display:none;position:fixed;inset:0;z-index:9998;
+      background:rgba(0,0,0,.75);align-items:center;justify-content:center;
+      padding:20px;backdrop-filter:blur(4px)}
+    #missing-modal.open{display:flex}
+    .missing-card{background:#0f172a;border:1px solid var(--border-mid);border-radius:var(--radius);
+      padding:22px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.85)}
+    .missing-title{font-size:.95rem;font-weight:700;color:var(--accent2);margin-bottom:4px}
+    .missing-range{font-size:.76rem;color:var(--subtext);margin-bottom:12px}
+    .missing-count{font-size:.8rem;font-weight:700;color:#fca5a5;margin-bottom:8px}
+    .missing-chips-wrap{max-height:220px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:6px;padding:2px;margin-bottom:14px}
+    .missing-chips-wrap::-webkit-scrollbar{width:4px}
+    .missing-chips-wrap::-webkit-scrollbar-thumb{background:var(--border-mid);border-radius:4px}
+    .missing-chip{padding:4px 10px;border-radius:6px;font-size:.76rem;font-weight:700;
+      background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5;
+      letter-spacing:.04em}
+    .missing-ok{color:#86efac;font-size:.85rem;text-align:center;padding:16px}
 
     /* VIEWER */
-    #image-viewer{display:none;position:fixed;inset:0;z-index:999999;background:#000;flex-direction:column;align-items:center;justify-content:center;}
-    #image-viewer.open{display:flex;}
-    .viewer-bar{position:absolute;top:0;left:0;right:0;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to bottom,rgba(0,0,0,.75),transparent);z-index:2;pointer-events:none;}
-    .viewer-bar>*{pointer-events:auto;}
-    .viewer-ms{font-size:1rem;font-weight:800;color:white;}
-    .viewer-hint-top{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:2px;}
-    .viewer-close{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:white;font-size:1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s;}
-    .viewer-close:hover{background:rgba(255,255,255,.25);}
-    .viewer-canvas{width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:grab;user-select:none;-webkit-user-select:none;}
-    .viewer-canvas.zoomed{cursor:move;}
-    #viewer-img{max-width:100%;max-height:100%;object-fit:contain;transform-origin:center center;pointer-events:none;}
-    .viewer-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:60px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;color:white;font-size:1.4rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:background .15s;}
-    .viewer-arrow:hover{background:rgba(255,255,255,.16);}
-    #viewer-prev{left:8px;}
-    #viewer-next{right:8px;}
-    .viewer-footer{position:absolute;bottom:0;left:0;right:0;padding:12px 16px;display:flex;flex-direction:column;align-items:center;gap:4px;background:linear-gradient(to top,rgba(0,0,0,.65),transparent);z-index:2;pointer-events:none;}
-    .viewer-counter{font-size:.75rem;color:rgba(255,255,255,.55);background:rgba(0,0,0,.4);padding:3px 12px;border-radius:999px;}
-    .viewer-zoom-hint{font-size:.66rem;color:rgba(255,255,255,.3);}
+    #image-viewer{display:none;position:fixed;inset:0;z-index:999999;background:#000;
+      flex-direction:column;align-items:center;justify-content:center}
+    #image-viewer.open{display:flex}
+    .viewer-bar{position:absolute;top:0;left:0;right:0;padding:14px 16px;display:flex;
+      align-items:center;justify-content:space-between;
+      background:linear-gradient(to bottom,rgba(0,0,0,.75),transparent);z-index:2;pointer-events:none}
+    .viewer-bar>*{pointer-events:auto}
+    .viewer-ms{font-size:1rem;font-weight:800;color:white}
+    .viewer-hint-top{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:2px}
+    .viewer-close{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);color:white;font-size:1rem;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s}
+    .viewer-close:hover{background:rgba(255,255,255,.25)}
+    .viewer-canvas{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+      overflow:hidden;position:relative;cursor:grab;user-select:none;-webkit-user-select:none}
+    .viewer-canvas.zoomed{cursor:move}
+    #viewer-img{max-width:100%;max-height:100%;object-fit:contain;transform-origin:center center;pointer-events:none}
+    .viewer-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:60px;
+      background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;
+      color:white;font-size:1.4rem;display:flex;align-items:center;justify-content:center;
+      cursor:pointer;z-index:2;transition:background .15s}
+    .viewer-arrow:hover{background:rgba(255,255,255,.16)}
+    #viewer-prev{left:8px}
+    #viewer-next{right:8px}
+    .viewer-footer{position:absolute;bottom:0;left:0;right:0;padding:12px 16px;
+      display:flex;flex-direction:column;align-items:center;gap:4px;
+      background:linear-gradient(to top,rgba(0,0,0,.65),transparent);z-index:2;pointer-events:none}
+    .viewer-counter{font-size:.75rem;color:rgba(255,255,255,.55);background:rgba(0,0,0,.4);
+      padding:3px 12px;border-radius:999px}
+    .viewer-zoom-hint{font-size:.66rem;color:rgba(255,255,255,.3)}
 
     /* EDIT MS MODAL */
-    #edit-ms-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
-    #edit-ms-modal.open{display:flex;}
-    .modal-card{background:#0f172a;border:1px solid var(--border-mid);border-radius:var(--radius);padding:24px;width:100%;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.85);}
-    .modal-title{font-size:.95rem;font-weight:700;color:var(--accent2);margin-bottom:4px;}
-    .modal-hint{font-size:.72rem;color:var(--subtext);margin-bottom:16px;}
-    .ms-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;}
-    .ms-prefix{font-size:1.5rem;font-weight:900;color:var(--accent2);background:rgba(59,130,246,.12);padding:8px 14px;border-radius:8px;border:1px solid rgba(59,130,246,.3);}
-    #ms-number-input{flex:1;background:var(--surface2);border:1px solid var(--border-mid);border-radius:8px;color:var(--text);font-size:1.5rem;font-weight:900;padding:8px 14px;outline:none;text-align:center;letter-spacing:.08em;}
-    #ms-number-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,130,246,.2);}
-    .modal-btns{display:flex;gap:8px;}
+    #edit-ms-modal{display:none;position:fixed;inset:0;z-index:9999;
+      background:rgba(0,0,0,.75);align-items:center;justify-content:center;
+      padding:20px;backdrop-filter:blur(4px)}
+    #edit-ms-modal.open{display:flex}
+    .modal-card{background:#0f172a;border:1px solid var(--border-mid);border-radius:var(--radius);
+      padding:24px;width:100%;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.85)}
+    .modal-title{font-size:.95rem;font-weight:700;color:var(--accent2);margin-bottom:4px}
+    .modal-hint{font-size:.72rem;color:var(--subtext);margin-bottom:16px}
+    .ms-row{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+    .ms-prefix{font-size:1.5rem;font-weight:900;color:var(--accent2);
+      background:rgba(59,130,246,.12);padding:8px 14px;border-radius:8px;border:1px solid rgba(59,130,246,.3)}
+    #ms-number-input{flex:1;background:var(--surface2);border:1px solid var(--border-mid);
+      border-radius:8px;color:var(--text);font-size:1.5rem;font-weight:900;
+      padding:8px 14px;outline:none;text-align:center;letter-spacing:.08em}
+    #ms-number-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,130,246,.2)}
+    .modal-btns{display:flex;gap:8px}
 
     /* TOAST */
-    #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(23,52,114,.97);color:white;padding:10px 22px;border-radius:999px;font-size:.83rem;font-weight:600;opacity:0;transition:all .3s cubic-bezier(.175,.885,.32,1.275);z-index:9999999;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.5);border:1px solid rgba(59,130,246,.35);white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;}
-    #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-    .mt-10{margin-top:10px;}
-    .flex-0{flex-shrink:0;}
-    .row-b{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+    #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);
+      background:rgba(23,52,114,.97);color:white;padding:10px 22px;border-radius:999px;
+      font-size:.83rem;font-weight:600;opacity:0;
+      transition:all .3s cubic-bezier(.175,.885,.32,1.275);
+      z-index:9999999;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.5);
+      border:1px solid rgba(59,130,246,.35);white-space:nowrap;max-width:90vw;
+      overflow:hidden;text-overflow:ellipsis}
+    #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .mt-10{margin-top:10px}.flex-0{flex-shrink:0}.row-b{display:flex;align-items:center;justify-content:space-between;gap:8px}
   </style>
 </head>
 <body>
-
 <div id="toast"></div>
 
 <!-- IMAGE VIEWER -->
@@ -261,595 +285,566 @@
   </div>
 </div>
 
-<!-- APP -->
-<div class="app-shell">
-  <div class="card">
-
-    <!-- LOGIN -->
-    <section id="section-login" class="section active">
-      <div class="login-wrap">
-        <div class="login-logo">📖</div>
-        <div class="login-title">Project Kamus</div>
-        <div class="login-sub">Simpan &amp; susun gambar kamus mengikut muka surat</div>
-        <button class="google-btn" id="btn-login">
-          <span>🔵</span> Log Masuk dengan Google
-        </button>
-        <p style="text-align:center;font-size:.72rem;color:var(--subtext);margin-top:14px;">Data disimpan selamat di Firebase Cloud</p>
-      </div>
-    </section>
-
-    <!-- HOME -->
-    <section id="section-home" class="section">
-      <div class="topbar">
-        <div>
-          <div class="topbar-title">📚 Senarai Kamus</div>
-          <div class="user-email" id="home-email"></div>
-        </div>
-        <button class="btn btn-secondary btn-sm" id="btn-logout">Log Keluar</button>
-      </div>
-      <div class="search-wrap flex-0">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="kamus-search" class="search-input" placeholder="Cari kamus..." />
-      </div>
-      <button class="btn flex-0 mt-10" id="btn-add-kamus" style="margin-bottom:10px;">+ Tambah Kamus</button>
-      <div class="list-scroll" id="kamus-list"></div>
-    </section>
-
-    <!-- PAGES -->
-    <section id="section-pages" class="section">
-      <div class="topbar">
-        <button class="btn btn-secondary btn-sm" id="btn-back-home">← Kamus</button>
-        <div style="text-align:right;">
-          <div class="topbar-title" id="pages-title" style="color:var(--accent2);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">—</div>
-          <div class="topbar-sub">Gambar Muka Surat</div>
-        </div>
-        <button class="btn btn-sm btn-success" id="btn-view-done">✅ Done Project</button>
-      </div>
-      <div id="trash-section" class="trash-section flex-0" style="display:none;">
-        <div class="trash-header" id="trash-toggle">
-          🗑️ <span id="trash-label">Tong Sampah (0)</span>
-          <span id="trash-arrow" style="margin-left:auto;font-size:.7rem;color:var(--subtext);">▼</span>
-        </div>
-        <div id="trash-list"></div>
-      </div>
-      <div class="upload-zone flex-0" id="upload-zone">
-        <input type="file" id="file-input" accept="image/*" multiple />
-        <div class="upload-zone-icon">🖼️</div>
-        <div class="upload-zone-text">Ketuk atau seret gambar untuk upload</div>
-        <div class="upload-format-hint">Nama fail mesti: MS001, MS042 ... (MS huruf besar + nombor)</div>
-      </div>
-      <div id="upload-progress-list" class="flex-0"></div>
-      <div class="search-wrap flex-0">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="pages-search" class="search-input" placeholder="Cari MS001, MS042..." />
-      </div>
-      <div class="list-scroll" id="pages-list"></div>
-    </section>
-
-    <!-- DONE -->
-    <section id="section-done" class="section">
-      <div class="topbar">
-        <button class="btn btn-secondary btn-sm" id="btn-back-pages">← Gambar</button>
-        <div style="text-align:right;">
-          <div class="topbar-title" style="color:#86efac;">✅ Done Project</div>
-          <div class="topbar-sub" id="done-title">—</div>
-        </div>
-      </div>
-      <div class="row-b flex-0" style="margin-bottom:10px;">
-        <span class="done-count-chip">Siap: <strong id="done-count">0</strong> gambar</span>
-        <span class="chip">"Undone" untuk kembalikan</span>
-      </div>
-      <div class="list-scroll" id="done-list"></div>
-    </section>
-
+<!-- MISSING MS MODAL -->
+<div id="missing-modal">
+  <div class="missing-card">
+    <div class="missing-title">🔍 Semakan Muka Surat</div>
+    <div class="missing-range" id="missing-range"></div>
+    <div class="missing-count" id="missing-count"></div>
+    <div class="missing-chips-wrap" id="missing-chips"></div>
+    <button class="btn btn-secondary btn-sm" id="btn-close-missing" style="width:100%;">✕ Tutup</button>
   </div>
 </div>
 
+<!-- APP -->
+<div class="app-shell"><div class="card">
+
+  <!-- LOGIN -->
+  <section id="section-login" class="section active">
+    <div class="login-wrap">
+      <div class="login-logo">📖</div>
+      <div class="login-title">Project Kamus</div>
+      <div class="login-sub">Simpan &amp; susun gambar kamus mengikut muka surat</div>
+      <button class="google-btn" id="btn-login"><span>🔵</span> Log Masuk dengan Google</button>
+      <p style="text-align:center;font-size:.72rem;color:var(--subtext);margin-top:14px">Data disimpan selamat di Firebase Cloud</p>
+    </div>
+  </section>
+
+  <!-- HOME -->
+  <section id="section-home" class="section">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">📚 Senarai Kamus</div>
+        <div class="user-email" id="home-email"></div>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="btn-logout">Log Keluar</button>
+    </div>
+    <div class="search-wrap flex-0">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="kamus-search" class="search-input" placeholder="Cari kamus..." />
+    </div>
+    <button class="btn flex-0 mt-10" id="btn-add-kamus" style="margin-bottom:10px">+ Tambah Kamus</button>
+    <div class="list-scroll" id="kamus-list"></div>
+  </section>
+
+  <!-- PAGES -->
+  <section id="section-pages" class="section">
+    <div class="topbar">
+      <button class="btn btn-secondary btn-sm" id="btn-back-home">← Kamus</button>
+      <div style="text-align:right">
+        <div class="topbar-title" id="pages-title" style="color:var(--accent2);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">—</div>
+        <div class="topbar-sub">Gambar Muka Surat</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+        <button class="btn btn-purple btn-sm" id="btn-check-ms">🔍 Semak MS</button>
+        <button class="btn btn-success btn-sm" id="btn-view-done">✅ Done</button>
+      </div>
+    </div>
+    <div id="trash-section" class="trash-section flex-0" style="display:none">
+      <div class="trash-header" id="trash-toggle">
+        🗑️ <span id="trash-label">Tong Sampah (0)</span>
+        <span id="trash-arrow" style="margin-left:auto;font-size:.7rem;color:var(--subtext)">▼</span>
+      </div>
+      <div id="trash-list"></div>
+    </div>
+    <div class="upload-zone flex-0" id="upload-zone">
+      <input type="file" id="file-input" accept="image/*" multiple />
+      <div class="upload-zone-icon">🖼️</div>
+      <div class="upload-zone-text">Ketuk atau seret gambar untuk upload</div>
+      <div class="upload-format-hint">Format nama: MS001, MS042 (MS huruf besar + nombor) • Upload satu-satu ikut nombor</div>
+    </div>
+    <div class="queue-status" id="queue-status"></div>
+    <div id="upload-progress-list" class="flex-0"></div>
+    <div class="search-wrap flex-0">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="pages-search" class="search-input" placeholder="Cari MS001, MS042..." />
+    </div>
+    <div class="list-scroll" id="pages-list"></div>
+  </section>
+
+  <!-- DONE -->
+  <section id="section-done" class="section">
+    <div class="topbar">
+      <button class="btn btn-secondary btn-sm" id="btn-back-pages">← Gambar</button>
+      <div style="text-align:right">
+        <div class="topbar-title" style="color:#86efac">✅ Done Project</div>
+        <div class="topbar-sub" id="done-title">—</div>
+      </div>
+    </div>
+    <div class="row-b flex-0" style="margin-bottom:10px">
+      <span class="done-count-chip">Siap: <strong id="done-count">0</strong> gambar</span>
+      <span class="chip">"Undone" untuk kembalikan</span>
+    </div>
+    <div class="list-scroll" id="done-list"></div>
+  </section>
+
+</div></div>
+
 <script type="module">
-  import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence }
-    from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-  import { getFirestore, doc, collection, addDoc, updateDoc, deleteDoc, onSnapshot, getDocs }
-    from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-  import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL, deleteObject }
-    from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
+  import{initializeApp}from"https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+  import{getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged,setPersistence,browserLocalPersistence}
+    from"https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+  import{getFirestore,doc,collection,addDoc,updateDoc,deleteDoc,onSnapshot,getDocs}
+    from"https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+  import{getStorage,ref as sRef,uploadBytesResumable,getDownloadURL,deleteObject}
+    from"https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
 
-  // ── CONFIG ──────────────────────────────────────────────────
-  const firebaseConfig = {
-    apiKey: "AIzaSyAo-t6z8dmeo6k_xEIC9icQgGCffUbYRTA",
-    authDomain: "project-kamus-11760.firebaseapp.com",
-    projectId: "project-kamus-11760",
-    storageBucket: "project-kamus-11760.firebasestorage.app",
-    messagingSenderId: "69893110992",
-    appId: "1:69893110992:web:e1ba7139cb61d4115172d5",
-    measurementId: "G-6LRLYXX2VS"
+  const firebaseConfig={
+    apiKey:"AIzaSyAo-t6z8dmeo6k_xEIC9icQgGCffUbYRTA",
+    authDomain:"project-kamus-11760.firebaseapp.com",
+    projectId:"project-kamus-11760",
+    storageBucket:"project-kamus-11760.firebasestorage.app",
+    messagingSenderId:"69893110992",
+    appId:"1:69893110992:web:e1ba7139cb61d4115172d5",
+    measurementId:"G-6LRLYXX2VS"
   };
+  const app=initializeApp(firebaseConfig);
+  const auth=getAuth(app),db=getFirestore(app),storage=getStorage(app),gProv=new GoogleAuthProvider();
 
-  const app      = initializeApp(firebaseConfig);
-  const auth     = getAuth(app);
-  const db       = getFirestore(app);
-  const storage  = getStorage(app);
-  const gProv    = new GoogleAuthProvider();
+  // STATE
+  let currentUser=null,currentKamusId=null,currentKamusNm="";
+  let allKamus=[],allPages=[];
+  let kamusUnsub=null,pagesUnsub=null;
+  let trashOpen=true,editingPageId=null;
+  let viewerImages=[],viewerIdx=0;
+  let viewerZoom=1,viewerPanX=0,viewerPanY=0;
 
-  // ── STATE ────────────────────────────────────────────────────
-  let currentUser = null, currentKamusId = null, currentKamusNm = "";
-  let allKamus = [], allPages = [];
-  let kamusUnsub = null, pagesUnsub = null;
-  let trashOpen = true, editingPageId = null;
-  let viewerImages = [], viewerIdx = 0;
-  let viewerZoom = 1, viewerPanX = 0, viewerPanY = 0;
+  // UPLOAD QUEUE STATE
+  let uploadQueue=[];
+  let isUploading=false;
+  let qTotal=0,qDone=0;
 
-  // ── UTILS ────────────────────────────────────────────────────
-  let toastTmr = null;
-  function showToast(msg, dur = 3200) {
-    const el = document.getElementById('toast');
-    el.textContent = msg; el.classList.add('show');
-    if (toastTmr) clearTimeout(toastTmr);
-    if (dur > 0) toastTmr = setTimeout(() => el.classList.remove('show'), dur);
+  // UTILS
+  let toastTmr=null;
+  function showToast(msg,dur=3200){
+    const el=document.getElementById('toast');
+    el.textContent=msg;el.classList.add('show');
+    if(toastTmr)clearTimeout(toastTmr);
+    if(dur>0)toastTmr=setTimeout(()=>el.classList.remove('show'),dur);
   }
-  function goTo(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-  }
-  function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
+  function goTo(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  const MS_RE=/^MS\d+$/;
+  function isValidMS(n){return MS_RE.test(n.replace(/\.[^/.]+$/,''))}
+  function getMSNum(n){const m=String(n).match(/^MS(\d+)$/);return m?parseInt(m[1],10):0}
+  function buildMS(n){return'MS'+String(n).padStart(3,'0')}
+  function getExt(n){const m=n.match(/\.[^/.]+$/);return m?m[0].toLowerCase():'.jpg'}
+  function uid6(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5)}
 
-  // MS helpers
-  const MS_RE = /^MS\d+$/;
-  function isValidMS(name) { return MS_RE.test(name.replace(/\.[^/.]+$/,'')); }
-  function getMSNum(n) { const m=String(n).match(/^MS(\d+)$/); return m?parseInt(m[1],10):0; }
-  function buildMS(num) { return 'MS'+String(num).padStart(3,'0'); }
-  function getExt(n) { const m=n.match(/\.[^/.]+$/); return m?m[0].toLowerCase():'.jpg'; }
-  function uid6() { return (Date.now().toString(36)+Math.random().toString(36).substr(2,5)); }
-
-  // ── AUTH ─────────────────────────────────────────────────────
-  setPersistence(auth, browserLocalPersistence);
-  onAuthStateChanged(auth, user => {
-    currentUser = user;
-    if (user) {
-      document.getElementById('home-email').textContent = user.email;
-      subscribeKamus();
-      goTo('section-home');
-    } else {
-      [kamusUnsub, pagesUnsub].forEach(u => u && u());
-      kamusUnsub = pagesUnsub = null;
-      goTo('section-login');
+  // AUTH
+  setPersistence(auth,browserLocalPersistence);
+  onAuthStateChanged(auth,user=>{
+    currentUser=user;
+    if(user){
+      document.getElementById('home-email').textContent=user.email;
+      subscribeKamus();goTo('section-home');
+    }else{
+      [kamusUnsub,pagesUnsub].forEach(u=>u&&u());
+      kamusUnsub=pagesUnsub=null;goTo('section-login');
     }
   });
-  document.getElementById('btn-login').onclick = () =>
-    signInWithPopup(auth, gProv).catch(e => showToast('Gagal: ' + e.message));
-  document.getElementById('btn-logout').onclick = () => signOut(auth);
+  document.getElementById('btn-login').onclick=()=>signInWithPopup(auth,gProv).catch(e=>showToast('Gagal: '+e.message));
+  document.getElementById('btn-logout').onclick=()=>signOut(auth);
 
-  // ── KAMUS ────────────────────────────────────────────────────
-  function subscribeKamus() {
-    if (kamusUnsub) kamusUnsub();
-    kamusUnsub = onSnapshot(collection(db,'users',currentUser.uid,'kamus'), snap => {
-      allKamus = snap.docs.map(d => ({id:d.id,...d.data()}));
-      allKamus.sort((a,b) => (a.name||'').localeCompare(b.name||'',undefined,{numeric:true,sensitivity:'base'}));
+  // KAMUS
+  function subscribeKamus(){
+    if(kamusUnsub)kamusUnsub();
+    kamusUnsub=onSnapshot(collection(db,'users',currentUser.uid,'kamus'),snap=>{
+      allKamus=snap.docs.map(d=>({id:d.id,...d.data()}));
+      allKamus.sort((a,b)=>(a.name||'').localeCompare(b.name||'',undefined,{numeric:true,sensitivity:'base'}));
       renderKamus();
     });
   }
-
-  function renderKamus() {
-    const q = document.getElementById('kamus-search').value.toLowerCase();
-    const list = document.getElementById('kamus-list');
-    const filtered = allKamus.filter(k => (k.name||'').toLowerCase().includes(q));
-    if (!filtered.length) {
-      list.innerHTML = `<div class="empty-state"><div class="empty-icon">📖</div><div>${allKamus.length?'Tiada hasil carian.':'Belum ada kamus.<br>Tekan "+ Tambah Kamus".'}</div></div>`;
-      return;
-    }
-    list.innerHTML = '';
-    filtered.forEach(k => {
-      const div = document.createElement('div');
-      div.className = 'kamus-item';
-      div.innerHTML = `
-        <span style="font-size:1.1rem;flex-shrink:0;">📚</span>
-        <input class="kamus-name-input" value="${esc(k.name||'')}" placeholder="Nama kamus..." />
+  function renderKamus(){
+    const q=document.getElementById('kamus-search').value.toLowerCase();
+    const list=document.getElementById('kamus-list');
+    const filtered=allKamus.filter(k=>(k.name||'').toLowerCase().includes(q));
+    if(!filtered.length){list.innerHTML=`<div class="empty-state"><div class="empty-icon">📖</div><div>${allKamus.length?'Tiada hasil carian.':'Belum ada kamus.<br>Tekan "+ Tambah Kamus".'}</div></div>`;return}
+    list.innerHTML='';
+    filtered.forEach(k=>{
+      const div=document.createElement('div');div.className='kamus-item';
+      div.innerHTML=`<span style="font-size:1.1rem;flex-shrink:0">📚</span>
+        <input class="kamus-name-input" value="${esc(k.name||'')}" placeholder="Nama kamus..."/>
         <button class="kamus-open-btn">Buka →</button>
-        <button class="btn btn-danger btn-xs" title="Padam">🗑</button>
-      `;
-      const inp = div.querySelector('.kamus-name-input');
-      inp.addEventListener('change', () =>
-        updateDoc(doc(db,'users',currentUser.uid,'kamus',k.id),{name:inp.value})
-      );
-      div.querySelector('.kamus-open-btn').onclick = () => openKamus(k.id, k.name||'Tanpa Nama');
-      div.querySelector('.btn-danger').onclick = () => {
-        if (confirm(`Padam "${k.name}"?\nSemua gambar dalam kamus ini turut dipadam.`))
-          deleteKamusDeep(k.id);
-      };
+        <button class="btn btn-danger btn-xs" title="Padam">🗑</button>`;
+      const inp=div.querySelector('.kamus-name-input');
+      inp.addEventListener('change',()=>updateDoc(doc(db,'users',currentUser.uid,'kamus',k.id),{name:inp.value}));
+      div.querySelector('.kamus-open-btn').onclick=()=>openKamus(k.id,k.name||'Tanpa Nama');
+      div.querySelector('.btn-danger').onclick=()=>{if(confirm(`Padam "${k.name}"?\nSemua gambar turut dipadam.`))deleteKamusDeep(k.id)};
       list.appendChild(div);
     });
   }
-
-  document.getElementById('kamus-search').addEventListener('input', renderKamus);
-  document.getElementById('btn-add-kamus').onclick = async () => {
+  document.getElementById('kamus-search').addEventListener('input',renderKamus);
+  document.getElementById('btn-add-kamus').onclick=async()=>{
     await addDoc(collection(db,'users',currentUser.uid,'kamus'),{name:'Kamus Baharu',createdAt:Date.now()});
     showToast('✅ Kamus ditambah!');
   };
-
-  async function deleteKamusDeep(id) {
+  async function deleteKamusDeep(id){
     showToast('Sedang memadam…',0);
-    try {
-      const snap = await getDocs(collection(db,'users',currentUser.uid,'kamus',id,'pages'));
-      for (const d of snap.docs) {
-        if (d.data().storagePath) try{ await deleteObject(sRef(storage,d.data().storagePath)); }catch(_){}
-        await deleteDoc(d.ref);
-      }
+    try{
+      const snap=await getDocs(collection(db,'users',currentUser.uid,'kamus',id,'pages'));
+      for(const d of snap.docs){if(d.data().storagePath)try{await deleteObject(sRef(storage,d.data().storagePath))}catch(_){}await deleteDoc(d.ref)}
       await deleteDoc(doc(db,'users',currentUser.uid,'kamus',id));
       showToast('Kamus berjaya dipadam.');
-    } catch(e) { showToast('Gagal: '+e.message); }
+    }catch(e){showToast('Gagal: '+e.message)}
   }
 
-  // ── OPEN KAMUS ───────────────────────────────────────────────
-  function openKamus(id, name) {
-    currentKamusId = id; currentKamusNm = name;
-    document.getElementById('pages-title').textContent = name;
-    document.getElementById('done-title').textContent  = name;
-    subscribePages();
-    goTo('section-pages');
+  // OPEN KAMUS
+  function openKamus(id,name){
+    currentKamusId=id;currentKamusNm=name;
+    document.getElementById('pages-title').textContent=name;
+    document.getElementById('done-title').textContent=name;
+    subscribePages();goTo('section-pages');
   }
-
-  document.getElementById('btn-back-home').onclick = () => {
-    if (pagesUnsub) { pagesUnsub(); pagesUnsub = null; }
-    currentKamusId = null;
-    goTo('section-home');
+  document.getElementById('btn-back-home').onclick=()=>{
+    if(pagesUnsub){pagesUnsub();pagesUnsub=null}currentKamusId=null;goTo('section-home');
   };
-  document.getElementById('btn-view-done').onclick = () => { renderDone(); goTo('section-done'); };
-  document.getElementById('btn-back-pages').onclick = () => goTo('section-pages');
+  document.getElementById('btn-view-done').onclick=()=>{renderDone();goTo('section-done')};
+  document.getElementById('btn-back-pages').onclick=()=>goTo('section-pages');
 
-  // ── PAGES SUBSCRIPTION ───────────────────────────────────────
-  function subscribePages() {
-    if (!currentUser || !currentKamusId) return;
-    if (pagesUnsub) pagesUnsub();
-    pagesUnsub = onSnapshot(collection(db,'users',currentUser.uid,'kamus',currentKamusId,'pages'), snap => {
-      allPages = snap.docs.map(d => ({id:d.id,...d.data()}));
-      renderActive();
-      renderTrash();
-      if (document.getElementById('section-done').classList.contains('active')) renderDone();
+  // PAGES
+  function subscribePages(){
+    if(!currentUser||!currentKamusId)return;
+    if(pagesUnsub)pagesUnsub();
+    pagesUnsub=onSnapshot(collection(db,'users',currentUser.uid,'kamus',currentKamusId,'pages'),snap=>{
+      allPages=snap.docs.map(d=>({id:d.id,...d.data()}));
+      renderActive();renderTrash();
+      if(document.getElementById('section-done').classList.contains('active'))renderDone();
     });
   }
 
-  // ── RENDER ACTIVE ─────────────────────────────────────────────
-  function renderActive() {
-    const q = document.getElementById('pages-search').value.toLowerCase();
-    const active = allPages.filter(p=>p.status==='active').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
-    viewerImages = active.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
-    const filtered = active.filter(p=>(p.msName||'').toLowerCase().includes(q));
-    const list = document.getElementById('pages-list');
-    if (!filtered.length) {
-      list.innerHTML = `<div class="empty-state"><div class="empty-icon">🖼️</div><div>${active.length?'Tiada hasil carian.':'Belum ada gambar.<br>Upload gambar di atas.'}</div></div>`;
-      return;
-    }
-    list.innerHTML = '';
-    filtered.forEach(p => {
-      const div = document.createElement('div');
-      div.className = 'page-item';
-      div.innerHTML = `
+  // ── RENDER ACTIVE (tiada <img> — hanya placeholder) ──────────
+  function renderActive(){
+    const q=document.getElementById('pages-search').value.toLowerCase();
+    const active=allPages.filter(p=>p.status==='active').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
+    viewerImages=active.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
+    const filtered=active.filter(p=>(p.msName||'').toLowerCase().includes(q));
+    const list=document.getElementById('pages-list');
+    if(!filtered.length){list.innerHTML=`<div class="empty-state"><div class="empty-icon">🖼️</div><div>${active.length?'Tiada hasil carian.':'Belum ada gambar.<br>Upload gambar di atas.'}</div></div>`;return}
+    list.innerHTML='';
+    filtered.forEach(p=>{
+      const div=document.createElement('div');div.className='page-item';
+      div.innerHTML=`
         <div class="page-item-top">
-          <img class="page-thumb" src="${esc(p.storageUrl)}" alt="${esc(p.msName||'')}" loading="lazy" />
+          <div class="img-placeholder">
+            <span style="font-size:1.3rem">🖼️</span>
+            <span class="ph-ms" style="color:var(--accent2)">${esc(p.msName||'')}</span>
+          </div>
           <div class="page-ms-name">${esc(p.msName||'?')}</div>
-          <span style="font-size:.68rem;color:var(--subtext);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(p.originalName||'')}">${esc(p.originalName||'')}</span>
+          <span style="font-size:.68rem;color:var(--subtext);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(p.originalName||'')}">${esc(p.originalName||'')}</span>
         </div>
         <div class="page-actions">
           <button class="btn btn-success btn-xs">✅ Done</button>
           <button class="btn btn-secondary btn-xs">👁 Lihat</button>
           <button class="btn btn-warning btn-xs">✏️ Sunting MS</button>
           <button class="btn btn-danger btn-xs">🗑 Padam</button>
-        </div>
-      `;
-      const [bDone,bView,bEdit,bDel] = div.querySelectorAll('button');
-      div.querySelector('.page-thumb').onclick = () => openViewer(p.id,'active');
-      bView.onclick = () => openViewer(p.id,'active');
-      bDone.onclick = () => setStatus(p.id,'done');
-      bEdit.onclick = () => openEditMS(p.id, p.msName);
-      bDel.onclick  = () => deletePage(p.id, p.storagePath);
+        </div>`;
+      const [bDone,bView,bEdit,bDel]=div.querySelectorAll('button');
+      const ph=div.querySelector('.img-placeholder');
+      ph.onclick=()=>openViewer(p.id,'active');
+      bView.onclick=()=>openViewer(p.id,'active');
+      bDone.onclick=()=>setStatus(p.id,'done');
+      bEdit.onclick=()=>openEditMS(p.id,p.msName);
+      bDel.onclick=()=>deletePage(p.id,p.storagePath);
       list.appendChild(div);
     });
   }
+  document.getElementById('pages-search').addEventListener('input',renderActive);
 
-  document.getElementById('pages-search').addEventListener('input', renderActive);
-
-  // ── RENDER TRASH ──────────────────────────────────────────────
-  function renderTrash() {
-    const trash = allPages.filter(p=>p.status==='trash');
-    const sec   = document.getElementById('trash-section');
-    document.getElementById('trash-label').textContent = `Tong Sampah (${trash.length})`;
-    sec.style.display = trash.length ? 'block' : 'none';
-    const tList = document.getElementById('trash-list');
-    tList.style.display = trashOpen ? 'block' : 'none';
-    document.getElementById('trash-arrow').textContent = trashOpen ? '▼' : '▶';
-    tList.innerHTML = '';
-    trash.forEach(p => {
-      const div = document.createElement('div');
-      div.className = 'trash-item';
-      div.innerHTML = `
-        <img class="trash-img" src="${esc(p.storageUrl)}" loading="lazy" />
+  // ── RENDER TRASH (tiada <img>) ────────────────────────────────
+  function renderTrash(){
+    const trash=allPages.filter(p=>p.status==='trash');
+    const sec=document.getElementById('trash-section');
+    document.getElementById('trash-label').textContent=`Tong Sampah (${trash.length})`;
+    sec.style.display=trash.length?'block':'none';
+    const tList=document.getElementById('trash-list');
+    tList.style.display=trashOpen?'block':'none';
+    document.getElementById('trash-arrow').textContent=trashOpen?'▼':'▶';
+    tList.innerHTML='';
+    trash.forEach(p=>{
+      const div=document.createElement('div');div.className='trash-item';
+      div.innerHTML=`
+        <div class="trash-thumb" title="Klik untuk lihat">🖼️</div>
         <div class="trash-info">
-          <input class="trash-name-input" value="${esc(p.originalName||'')}" placeholder="Betulkan nama fail..." />
+          <input class="trash-name-input" value="${esc(p.originalName||'')}" placeholder="Betulkan nama fail..."/>
           <div class="trash-hint">⚠️ Format salah. Guna: MS001, MS042 (MS besar + nombor)</div>
         </div>
         <div class="trash-actions">
           <button class="btn btn-secondary btn-xs">↩️ Reupload</button>
           <button class="btn btn-danger btn-xs">🗑</button>
-        </div>
-      `;
-      const inp = div.querySelector('.trash-name-input');
-      const [bRe,bDel] = div.querySelectorAll('button');
-      div.querySelector('.trash-img').onclick = () => {
-        viewerImages = [{msName:p.originalName,url:p.storageUrl,id:p.id}];
-        viewerIdx = 0; launchViewer();
-      };
-      bRe.onclick = () => {
-        const raw = inp.value.trim().replace(/\.[^/.]+$/,'');
-        if (!isValidMS(raw)) { showToast('⚠️ Format masih salah. Contoh: MS001'); return; }
-        const msName = raw.toUpperCase();
+        </div>`;
+      const inp=div.querySelector('.trash-name-input');
+      const th=div.querySelector('.trash-thumb');
+      const [bRe,bDel]=div.querySelectorAll('button');
+      // Viewer untuk trash — load gambar only bila klik
+      th.onclick=()=>{viewerImages=[{msName:p.originalName,url:p.storageUrl,id:p.id}];viewerIdx=0;launchViewer()};
+      bRe.onclick=()=>{
+        const raw=inp.value.trim().replace(/\.[^/.]+$/,'');
+        if(!isValidMS(raw)){showToast('⚠️ Format masih salah. Contoh: MS001');return}
+        const msName=raw.toUpperCase();
         updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',p.id),
-          {status:'active',msName,msNumber:getMSNum(msName),originalName:raw}
-        );
+          {status:'active',msName,msNumber:getMSNum(msName),originalName:raw});
         showToast('✅ '+msName+' dikembalikan!');
       };
-      bDel.onclick = () => deletePage(p.id, p.storagePath);
+      bDel.onclick=()=>deletePage(p.id,p.storagePath);
       tList.appendChild(div);
     });
   }
-
-  document.getElementById('trash-toggle').onclick = () => {
-    trashOpen = !trashOpen;
-    document.getElementById('trash-list').style.display = trashOpen ? 'block' : 'none';
-    document.getElementById('trash-arrow').textContent = trashOpen ? '▼' : '▶';
+  document.getElementById('trash-toggle').onclick=()=>{
+    trashOpen=!trashOpen;
+    document.getElementById('trash-list').style.display=trashOpen?'block':'none';
+    document.getElementById('trash-arrow').textContent=trashOpen?'▼':'▶';
   };
 
-  // ── RENDER DONE ───────────────────────────────────────────────
-  function renderDone() {
-    const done = allPages.filter(p=>p.status==='done').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
-    const dVim  = done.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
-    document.getElementById('done-count').textContent = done.length;
-    const list = document.getElementById('done-list');
-    if (!done.length) {
-      list.innerHTML = `<div class="empty-state"><div class="empty-icon">🎯</div><div>Belum ada gambar ditanda selesai.</div></div>`;
-      return;
-    }
-    list.innerHTML = '';
-    done.forEach((p,i) => {
-      const div = document.createElement('div');
-      div.className = 'page-item is-done';
-      div.innerHTML = `
+  // ── RENDER DONE (tiada <img>) ─────────────────────────────────
+  function renderDone(){
+    const done=allPages.filter(p=>p.status==='done').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
+    const dVim=done.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
+    document.getElementById('done-count').textContent=done.length;
+    const list=document.getElementById('done-list');
+    if(!done.length){list.innerHTML=`<div class="empty-state"><div class="empty-icon">🎯</div><div>Belum ada gambar ditanda selesai.</div></div>`;return}
+    list.innerHTML='';
+    done.forEach((p,i)=>{
+      const div=document.createElement('div');div.className='page-item is-done';
+      div.innerHTML=`
         <div class="page-item-top">
-          <img class="page-thumb" src="${esc(p.storageUrl)}" loading="lazy" />
+          <div class="img-placeholder done-ph">
+            <span style="font-size:1.1rem">✅</span>
+            <span class="ph-ms" style="color:#86efac">${esc(p.msName||'')}</span>
+          </div>
           <div class="page-ms-name">${esc(p.msName||'?')}</div>
           <span class="done-badge">✅ Selesai</span>
         </div>
         <div class="page-actions">
           <button class="btn btn-warning btn-xs">↩️ Undone</button>
           <button class="btn btn-secondary btn-xs">👁 Lihat</button>
-        </div>
-      `;
-      const [bUndo,bView] = div.querySelectorAll('button');
-      const openDoneView = () => { viewerImages=dVim; viewerIdx=i; launchViewer(); };
-      div.querySelector('.page-thumb').onclick = openDoneView;
-      bView.onclick = openDoneView;
-      bUndo.onclick = () => setStatus(p.id,'active');
+        </div>`;
+      const [bUndo,bView]=div.querySelectorAll('button');
+      const openDV=()=>{viewerImages=dVim;viewerIdx=i;launchViewer()};
+      div.querySelector('.img-placeholder').onclick=openDV;
+      bView.onclick=openDV;
+      bUndo.onclick=()=>setStatus(p.id,'active');
       list.appendChild(div);
     });
   }
 
-  // ── STATUS / DELETE ───────────────────────────────────────────
-  async function setStatus(pageId, status) {
-    await updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',pageId),{status});
+  // STATUS / DELETE
+  async function setStatus(id,status){
+    await updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',id),{status});
     showToast(status==='done'?'✅ Ditanda selesai!':'↩️ Dikembalikan ke senarai gambar.');
   }
-  async function deletePage(pageId, storagePath) {
-    if (!confirm('Padam gambar ini?')) return;
-    if (storagePath) try{ await deleteObject(sRef(storage,storagePath)); }catch(_){}
-    await deleteDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',pageId));
+  async function deletePage(id,storagePath){
+    if(!confirm('Padam gambar ini?'))return;
+    if(storagePath)try{await deleteObject(sRef(storage,storagePath))}catch(_){}
+    await deleteDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',id));
     showToast('Gambar dipadam.');
   }
 
-  // ── EDIT MS ───────────────────────────────────────────────────
-  function openEditMS(id, curMS) {
-    editingPageId = id;
-    document.getElementById('ms-number-input').value = curMS ? String(getMSNum(curMS)) : '';
+  // EDIT MS
+  function openEditMS(id,curMS){
+    editingPageId=id;
+    document.getElementById('ms-number-input').value=curMS?String(getMSNum(curMS)):'';
     document.getElementById('edit-ms-modal').classList.add('open');
     setTimeout(()=>document.getElementById('ms-number-input').select(),80);
   }
-  document.getElementById('btn-cancel-ms').onclick = () => {
-    document.getElementById('edit-ms-modal').classList.remove('open');
-    editingPageId = null;
-  };
-  document.getElementById('btn-save-ms').onclick = async () => {
-    const val = parseInt(document.getElementById('ms-number-input').value);
-    if (!val||val<1) { showToast('⚠️ Masukkan nombor yang sah.'); return; }
-    const msName = buildMS(val);
-    await updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',editingPageId),
-      {msName,msNumber:val});
-    document.getElementById('edit-ms-modal').classList.remove('open');
-    editingPageId = null;
+  document.getElementById('btn-cancel-ms').onclick=()=>{document.getElementById('edit-ms-modal').classList.remove('open');editingPageId=null};
+  document.getElementById('btn-save-ms').onclick=async()=>{
+    const val=parseInt(document.getElementById('ms-number-input').value);
+    if(!val||val<1){showToast('⚠️ Masukkan nombor yang sah.');return}
+    const msName=buildMS(val);
+    await updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',editingPageId),{msName,msNumber:val});
+    document.getElementById('edit-ms-modal').classList.remove('open');editingPageId=null;
     showToast('✅ Dikemaskini: '+msName);
   };
 
-  // ── UPLOAD ────────────────────────────────────────────────────
-  const uploadZone = document.getElementById('upload-zone');
-  const fileInput  = document.getElementById('file-input');
-  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
-  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
-  uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('drag-over'); handleFiles([...e.dataTransfer.files]); });
-  fileInput.addEventListener('change', e => { handleFiles([...e.target.files]); fileInput.value=''; });
-
-  function handleFiles(files) {
-    if (!currentUser||!currentKamusId) return;
-    const imgs = files.filter(f=>f.type.startsWith('image/'));
-    if (!imgs.length) { showToast('⚠️ Pilih fail gambar.'); return; }
-    imgs.forEach(uploadFile);
+  // ── SEQUENTIAL UPLOAD QUEUE ───────────────────────────────────
+  function updateQueueUI(){
+    const el=document.getElementById('queue-status');
+    if(uploadQueue.length===0){el.style.display='none';el.textContent='';return}
+    el.style.display='block';
+    const cur=uploadQueue[0]?.name||'';
+    el.textContent=`📤 Upload ${qDone+1}/${qTotal}: ${cur}  (${uploadQueue.length-1} lagi menunggu)`;
   }
 
-  function uploadFile(file) {
-    const orig  = file.name;
-    const base  = orig.replace(/\.[^/.]+$/,'');
-    const ext   = getExt(orig);
-    const valid = isValidMS(base);
-    const msName = valid ? base.toUpperCase() : null;
-    const id    = uid6();
-    const path  = `users/${currentUser.uid}/kamus/${currentKamusId}/${id}${ext}`;
+  async function processQueue(){
+    if(isUploading||uploadQueue.length===0)return;
+    isUploading=true;
+    updateQueueUI();
+    const file=uploadQueue[0];
+    await uploadFileSingle(file);
+    uploadQueue.shift();
+    qDone++;
+    isUploading=false;
+    if(uploadQueue.length===0){
+      document.getElementById('queue-status').style.display='none';
+      qTotal=0;qDone=0;
+    }
+    processQueue();
+  }
 
-    const pList = document.getElementById('upload-progress-list');
-    const item  = document.createElement('div');
-    item.className = 'upload-item';
-    item.innerHTML = `
-      <div class="upload-item-name">${esc(orig)}</div>
-      <div class="upload-bar-wrap"><div class="upload-bar-fill" id="f${id}" style="width:0%"></div></div>
-      <div class="upload-pct" id="p${id}">0%</div>
-    `;
-    pList.appendChild(item);
+  const uploadZone=document.getElementById('upload-zone');
+  const fileInput=document.getElementById('file-input');
+  uploadZone.addEventListener('dragover',e=>{e.preventDefault();uploadZone.classList.add('drag-over')});
+  uploadZone.addEventListener('dragleave',()=>uploadZone.classList.remove('drag-over'));
+  uploadZone.addEventListener('drop',e=>{e.preventDefault();uploadZone.classList.remove('drag-over');handleFiles([...e.dataTransfer.files])});
+  fileInput.addEventListener('change',e=>{handleFiles([...e.target.files]);fileInput.value=''});
 
-    const task = uploadBytesResumable(sRef(storage,path),file);
-    task.on('state_changed',
-      snap => {
-        const pct = Math.round(snap.bytesTransferred/snap.totalBytes*100);
-        const fEl = document.getElementById('f'+id);
-        const pEl = document.getElementById('p'+id);
-        if(fEl) fEl.style.width = pct+'%';
-        if(pEl) pEl.textContent = pct+'%';
-      },
-      err => { item.remove(); showToast('❌ Upload gagal: '+err.message); },
-      async () => {
-        const url = await getDownloadURL(task.snapshot.ref);
-        await addDoc(collection(db,'users',currentUser.uid,'kamus',currentKamusId,'pages'),{
-          msName: msName||base,
-          msNumber: msName?getMSNum(msName):0,
-          storageUrl: url,
-          storagePath: path,
-          status: valid?'active':'trash',
-          originalName: orig,
-          createdAt: Date.now()
-        });
-        item.remove();
-        showToast(valid ? '✅ '+msName+' berjaya diupload!' : '⚠️ "'+orig+'" → Tong Sampah (format salah)');
-      }
-    );
+  function handleFiles(files){
+    if(!currentUser||!currentKamusId)return;
+    const imgs=files.filter(f=>f.type.startsWith('image/'));
+    if(!imgs.length){showToast('⚠️ Pilih fail gambar.');return}
+    // Sort: MS valid ikut nombor naik, kemudian invalid
+    const valid=imgs.filter(f=>isValidMS(f.name.replace(/\.[^/.]+$/,'')));
+    const invalid=imgs.filter(f=>!isValidMS(f.name.replace(/\.[^/.]+$/,'')));
+    valid.sort((a,b)=>getMSNum(a.name.replace(/\.[^/.]+$/,'').toUpperCase())-getMSNum(b.name.replace(/\.[^/.]+$/,'').toUpperCase()));
+    const toAdd=[...valid,...invalid];
+    uploadQueue.push(...toAdd);
+    qTotal+=toAdd.length;
+    showToast(`📤 ${toAdd.length} fail ditambah ke barisan. Upload bermula dari MS terkecil...`);
+    processQueue();
+  }
+
+  function uploadFileSingle(file){
+    return new Promise(resolve=>{
+      const orig=file.name,base=orig.replace(/\.[^/.]+$/,'');
+      const ext=getExt(orig),valid=isValidMS(base);
+      const msName=valid?base.toUpperCase():null;
+      const id=uid6();
+      const path=`users/${currentUser.uid}/kamus/${currentKamusId}/${id}${ext}`;
+      const pList=document.getElementById('upload-progress-list');
+      const item=document.createElement('div');item.className='upload-item';
+      item.innerHTML=`<div class="upload-item-name">🖼️ ${esc(orig)}</div>
+        <div class="upload-bar-wrap"><div class="upload-bar-fill" id="f${id}" style="width:0%"></div></div>
+        <div class="upload-pct" id="p${id}">0%</div>`;
+      pList.appendChild(item);
+      const task=uploadBytesResumable(sRef(storage,path),file);
+      task.on('state_changed',
+        snap=>{
+          const pct=Math.round(snap.bytesTransferred/snap.totalBytes*100);
+          const fEl=document.getElementById('f'+id);const pEl=document.getElementById('p'+id);
+          if(fEl)fEl.style.width=pct+'%';if(pEl)pEl.textContent=pct+'%';
+        },
+        err=>{item.remove();showToast('❌ Upload gagal: '+err.message);resolve()},
+        async()=>{
+          const url=await getDownloadURL(task.snapshot.ref);
+          await addDoc(collection(db,'users',currentUser.uid,'kamus',currentKamusId,'pages'),{
+            msName:msName||base,msNumber:msName?getMSNum(msName):0,
+            storageUrl:url,storagePath:path,
+            status:valid?'active':'trash',originalName:orig,createdAt:Date.now()
+          });
+          item.remove();
+          showToast(valid?'✅ '+msName+' berjaya!':'⚠️ "'+orig+'" → Tong Sampah');
+          resolve();
+        }
+      );
+    });
+  }
+
+  // ── MISSING MS CHECKER ────────────────────────────────────────
+  document.getElementById('btn-check-ms').onclick=checkMissingMS;
+  document.getElementById('btn-close-missing').onclick=()=>document.getElementById('missing-modal').classList.remove('open');
+
+  function checkMissingMS(){
+    const active=allPages.filter(p=>p.status==='active');
+    if(active.length===0){showToast('Tiada gambar aktif untuk disemak.');return}
+    const numbers=active.map(p=>getMSNum(p.msName||'')).filter(n=>n>0);
+    if(numbers.length<2){showToast('Perlu sekurang-kurangnya 2 gambar untuk semak julat.');return}
+    const min=Math.min(...numbers),max=Math.max(...numbers);
+    const existing=new Set(numbers);
+    const missing=[];
+    for(let i=min;i<=max;i++){if(!existing.has(i))missing.push(buildMS(i))}
+    document.getElementById('missing-range').textContent=
+      `Julat: ${buildMS(min)} → ${buildMS(max)}  (${max-min+1} dijangka, ${active.length} ada)`;
+    const chips=document.getElementById('missing-chips');
+    const countEl=document.getElementById('missing-count');
+    if(missing.length===0){
+      countEl.textContent='';
+      chips.innerHTML=`<div class="missing-ok">✅ Tiada muka surat tertinggal!<br>Semua ${active.length} gambar lengkap dalam julat ini.</div>`;
+    }else{
+      countEl.textContent=`${missing.length} muka surat tertinggal:`;
+      chips.innerHTML=missing.map(ms=>`<span class="missing-chip">${ms}</span>`).join('');
+    }
+    document.getElementById('missing-modal').classList.add('open');
   }
 
   // ── IMAGE VIEWER ──────────────────────────────────────────────
-  function openViewer(pageId, src) {
-    if (src==='active') {
-      const active = allPages.filter(p=>p.status==='active').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
-      viewerImages = active.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
-      viewerIdx    = Math.max(0, viewerImages.findIndex(x=>x.id===pageId));
+  function openViewer(pageId,src){
+    if(src==='active'){
+      const active=allPages.filter(p=>p.status==='active').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
+      viewerImages=active.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
+      viewerIdx=Math.max(0,viewerImages.findIndex(x=>x.id===pageId));
     }
     launchViewer();
   }
-
-  function launchViewer() {
-    viewerZoom=1; viewerPanX=0; viewerPanY=0;
+  function launchViewer(){
+    viewerZoom=1;viewerPanX=0;viewerPanY=0;
     document.getElementById('image-viewer').classList.add('open');
     document.body.style.overflow='hidden';
     loadFrame();
   }
-
-  function loadFrame() {
-    if (!viewerImages.length) return;
-    const img = viewerImages[viewerIdx];
-    document.getElementById('viewer-img').src            = img.url;
-    document.getElementById('viewer-ms-label').textContent = img.msName||'—';
-    document.getElementById('viewer-counter').textContent  = `${viewerIdx+1} / ${viewerImages.length}`;
-    document.getElementById('viewer-hint-top').textContent = viewerImages.length>1?'Leret kiri/kanan untuk navigate':'';
-    document.getElementById('viewer-prev').style.opacity   = viewerIdx>0?'1':'.25';
-    document.getElementById('viewer-next').style.opacity   = viewerIdx<viewerImages.length-1?'1':'.25';
-    viewerZoom=1; viewerPanX=0; viewerPanY=0;
-    applyTf(); updateZH();
+  function loadFrame(){
+    if(!viewerImages.length)return;
+    const img=viewerImages[viewerIdx];
+    document.getElementById('viewer-img').src=img.url;  // ← gambar diload HANYA di sini
+    document.getElementById('viewer-ms-label').textContent=img.msName||'—';
+    document.getElementById('viewer-counter').textContent=`${viewerIdx+1} / ${viewerImages.length}`;
+    document.getElementById('viewer-hint-top').textContent=viewerImages.length>1?'Leret kiri/kanan untuk navigate':'';
+    document.getElementById('viewer-prev').style.opacity=viewerIdx>0?'1':'.25';
+    document.getElementById('viewer-next').style.opacity=viewerIdx<viewerImages.length-1?'1':'.25';
+    viewerZoom=1;viewerPanX=0;viewerPanY=0;applyTf();updateZH();
   }
-
-  function applyTf() {
-    document.getElementById('viewer-img').style.transform =
-      `scale(${viewerZoom}) translate(${viewerPanX/viewerZoom}px,${viewerPanY/viewerZoom}px)`;
-    document.getElementById('viewer-canvas').classList.toggle('zoomed', viewerZoom>1);
+  function applyTf(){
+    document.getElementById('viewer-img').style.transform=`scale(${viewerZoom}) translate(${viewerPanX/viewerZoom}px,${viewerPanY/viewerZoom}px)`;
+    document.getElementById('viewer-canvas').classList.toggle('zoomed',viewerZoom>1);
   }
-
-  function updateZH() {
-    document.getElementById('viewer-zoom-hint').textContent =
-      viewerZoom>1?'Seret untuk gerak • Ketuk 2x untuk zoom semula':'Ketuk 2x untuk zum • Leret untuk navigate';
+  function updateZH(){
+    document.getElementById('viewer-zoom-hint').textContent=viewerZoom>1?'Seret untuk gerak • Ketuk 2x untuk zoom semula':'Ketuk 2x untuk zum • Leret untuk navigate';
   }
-
-  function nav(dir) {
-    const n=viewerIdx+dir;
-    if(n<0||n>=viewerImages.length) return;
-    viewerIdx=n; loadFrame();
-  }
-
-  function closeViewer() {
-    document.getElementById('image-viewer').classList.remove('open');
-    document.getElementById('viewer-img').src='';
-    document.body.style.overflow='';
-  }
-
-  document.getElementById('viewer-close').onclick = closeViewer;
-  document.getElementById('viewer-prev').onclick   = ()=>nav(-1);
-  document.getElementById('viewer-next').onclick   = ()=>nav(1);
+  function nav(dir){const n=viewerIdx+dir;if(n<0||n>=viewerImages.length)return;viewerIdx=n;loadFrame()}
+  function closeViewer(){document.getElementById('image-viewer').classList.remove('open');document.getElementById('viewer-img').src='';document.body.style.overflow=''}
+  document.getElementById('viewer-close').onclick=closeViewer;
+  document.getElementById('viewer-prev').onclick=()=>nav(-1);
+  document.getElementById('viewer-next').onclick=()=>nav(1);
 
   // Touch
   let tX0=0,tY0=0,pX0=0,pY0=0,pd0=0,lastTap=0,tPan=false;
-  const vc = document.getElementById('viewer-canvas');
-
-  vc.addEventListener('touchstart', e=>{
+  const vc=document.getElementById('viewer-canvas');
+  vc.addEventListener('touchstart',e=>{
     e.preventDefault();
     if(e.touches.length===1){
-      tX0=e.touches[0].clientX; tY0=e.touches[0].clientY; pX0=viewerPanX; pY0=viewerPanY; tPan=false;
+      tX0=e.touches[0].clientX;tY0=e.touches[0].clientY;pX0=viewerPanX;pY0=viewerPanY;tPan=false;
       const now=Date.now();
-      if(now-lastTap<280){
-        viewerZoom=viewerZoom>1?1:2.5;
-        if(viewerZoom===1){viewerPanX=0;viewerPanY=0;}
-        applyTf(); updateZH(); lastTap=0;
-      } else lastTap=now;
-    } else if(e.touches.length===2){
-      const dx=e.touches[0].clientX-e.touches[1].clientX;
-      const dy=e.touches[0].clientY-e.touches[1].clientY;
-      pd0=Math.hypot(dx,dy);
+      if(now-lastTap<280){viewerZoom=viewerZoom>1?1:2.5;if(viewerZoom===1){viewerPanX=0;viewerPanY=0}applyTf();updateZH();lastTap=0}else lastTap=now;
+    }else if(e.touches.length===2){
+      const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;pd0=Math.hypot(dx,dy);
     }
   },{passive:false});
-
-  vc.addEventListener('touchmove', e=>{
+  vc.addEventListener('touchmove',e=>{
     e.preventDefault();
     if(e.touches.length===1){
-      const dx=e.touches[0].clientX-tX0, dy=e.touches[0].clientY-tY0;
-      if(viewerZoom>1){ tPan=true; viewerPanX=pX0+dx; viewerPanY=pY0+dy; applyTf(); }
-      else if(!tPan&&Math.abs(dx)>50&&Math.abs(dy)<50){ nav(dx<0?1:-1); tX0=e.touches[0].clientX; }
-    } else if(e.touches.length===2){
-      const dx=e.touches[0].clientX-e.touches[1].clientX;
-      const dy=e.touches[0].clientY-e.touches[1].clientY;
-      const d=Math.hypot(dx,dy);
-      viewerZoom=Math.min(5,Math.max(1,viewerZoom*(d/pd0)));
-      if(viewerZoom===1){viewerPanX=0;viewerPanY=0;}
-      pd0=d; applyTf(); updateZH();
+      const dx=e.touches[0].clientX-tX0,dy=e.touches[0].clientY-tY0;
+      if(viewerZoom>1){tPan=true;viewerPanX=pX0+dx;viewerPanY=pY0+dy;applyTf()}
+      else if(!tPan&&Math.abs(dx)>50&&Math.abs(dy)<50){nav(dx<0?1:-1);tX0=e.touches[0].clientX}
+    }else if(e.touches.length===2){
+      const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;
+      const d=Math.hypot(dx,dy);viewerZoom=Math.min(5,Math.max(1,viewerZoom*(d/pd0)));
+      if(viewerZoom===1){viewerPanX=0;viewerPanY=0}pd0=d;applyTf();updateZH();
     }
   },{passive:false});
-
-  // Mouse wheel zoom
-  vc.addEventListener('wheel', e=>{
-    e.preventDefault();
-    viewerZoom=Math.min(5,Math.max(1,viewerZoom*(e.deltaY>0?.85:1.18)));
-    if(viewerZoom===1){viewerPanX=0;viewerPanY=0;}
-    applyTf(); updateZH();
-  },{passive:false});
-
-  // Right-click drag pan
+  vc.addEventListener('wheel',e=>{e.preventDefault();viewerZoom=Math.min(5,Math.max(1,viewerZoom*(e.deltaY>0?.85:1.18)));if(viewerZoom===1){viewerPanX=0;viewerPanY=0}applyTf();updateZH()},{passive:false});
   let rDown=false,rX0=0,rY0=0,rPX=0,rPY=0;
-  vc.addEventListener('mousedown', e=>{ if(e.button!==2)return; e.preventDefault(); rDown=true; rX0=e.clientX; rY0=e.clientY; rPX=viewerPanX; rPY=viewerPanY; });
-  vc.addEventListener('contextmenu', e=>{ if(viewerZoom>1) e.preventDefault(); });
-  window.addEventListener('mousemove', e=>{ if(!rDown||viewerZoom<=1)return; viewerPanX=rPX+(e.clientX-rX0); viewerPanY=rPY+(e.clientY-rY0); applyTf(); });
-  window.addEventListener('mouseup',   e=>{ if(e.button===2) rDown=false; });
-
-  // Keyboard
-  document.addEventListener('keydown', e=>{
-    if(!document.getElementById('image-viewer').classList.contains('open')) return;
-    if(e.key==='Escape') closeViewer();
-    if(e.key==='ArrowLeft')  nav(-1);
-    if(e.key==='ArrowRight') nav(1);
+  vc.addEventListener('mousedown',e=>{if(e.button!==2)return;e.preventDefault();rDown=true;rX0=e.clientX;rY0=e.clientY;rPX=viewerPanX;rPY=viewerPanY});
+  vc.addEventListener('contextmenu',e=>{if(viewerZoom>1)e.preventDefault()});
+  window.addEventListener('mousemove',e=>{if(!rDown||viewerZoom<=1)return;viewerPanX=rPX+(e.clientX-rX0);viewerPanY=rPY+(e.clientY-rY0);applyTf()});
+  window.addEventListener('mouseup',e=>{if(e.button===2)rDown=false});
+  document.addEventListener('keydown',e=>{
+    if(!document.getElementById('image-viewer').classList.contains('open'))return;
+    if(e.key==='Escape')closeViewer();
+    if(e.key==='ArrowLeft')nav(-1);
+    if(e.key==='ArrowRight')nav(1);
   });
 
-  // Service Worker
-  if('serviceWorker' in navigator)
-    window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+  if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
 </script>
 </body>
 </html>
