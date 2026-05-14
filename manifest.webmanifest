@@ -1,9 +1,27 @@
 {
   "name": "Project Kamus",
   "short_name": "Kamus",
-  "start_url": ".",
+  "description": "Simpan & susun gambar kamus mengikut muka surat",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#020617",
   "theme_color": "#020617",
-  "icons": []
+  "lang": "ms",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
