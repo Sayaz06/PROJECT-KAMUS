@@ -7,19 +7,18 @@
   <meta name="theme-color" content="#020617" />
   <link rel="manifest" href="manifest.webmanifest" />
   <style>
-    :root {
-      --bg:#020617; --surface:rgba(15,23,42,.92); --surface2:rgba(22,33,62,.88);
-      --text:#e2e8f0; --subtext:#94a3b8; --border:#1e2d4a; --border-mid:#2d4a7a;
-      --accent:#3b82f6; --accent2:#60a5fa; --accent-glow:rgba(59,130,246,.35);
-      --danger:#ef4444; --danger-glow:rgba(239,68,68,.3);
-      --radius:16px; --radius-sm:10px;
+    :root{
+      --bg:#020617;--surface:rgba(15,23,42,.92);--surface2:rgba(22,33,62,.88);
+      --text:#e2e8f0;--subtext:#94a3b8;--border:#1e2d4a;--border-mid:#2d4a7a;
+      --accent:#3b82f6;--accent2:#60a5fa;--accent-glow:rgba(59,130,246,.35);
+      --danger:#ef4444;--danger-glow:rgba(239,68,68,.3);
+      --gold:#f59e0b;--radius:16px;--radius-sm:10px;
     }
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
     body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
       background:radial-gradient(ellipse at top left,#0f172a 0%,#020617 55%,#000d1a 100%);
       color:var(--text);min-height:100vh;min-height:100dvh;
-      display:flex;align-items:stretch;justify-content:center;
-      overflow:hidden;overscroll-behavior:none}
+      display:flex;align-items:stretch;justify-content:center;overflow:hidden;overscroll-behavior:none}
     .app-shell{width:100%;max-width:480px;margin:0 auto;padding:14px;display:flex;flex-direction:column;max-height:100dvh}
     .card{background:var(--surface);border-radius:20px;border:1px solid var(--border);
       box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 0 1px rgba(59,130,246,.07) inset;
@@ -29,29 +28,30 @@
     .section.active{display:flex;animation:fadeUp .22s ease-out}
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    /* BUTTONS */
+    /* ── BUTTONS ── */
     .btn{width:100%;border-radius:999px;padding:12px 18px;border:1px solid transparent;
       background:linear-gradient(135deg,var(--accent),#1d4ed8);color:white;font-weight:700;
       font-size:.95rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
       gap:7px;transition:all .15s;box-shadow:0 8px 24px var(--accent-glow)}
     .btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px var(--accent-glow)}
     .btn:active{transform:scale(.97)}
-    .btn-secondary{background:var(--surface2);border:1px solid var(--border-mid);color:var(--text);box-shadow:none}
-    .btn-secondary:hover{background:rgba(30,45,74,.95)}
+    .btn-sec{background:var(--surface2);border:1px solid var(--border-mid);color:var(--text);box-shadow:none}
+    .btn-sec:hover{background:rgba(30,45,74,.95)}
     .btn-danger{background:linear-gradient(135deg,#dc2626,#991b1b);box-shadow:0 6px 20px var(--danger-glow)}
     .btn-success{background:linear-gradient(135deg,#16a34a,#15803d);box-shadow:0 6px 18px rgba(22,163,74,.3)}
     .btn-warning{background:linear-gradient(135deg,#d97706,#b45309);box-shadow:none}
     .btn-purple{background:linear-gradient(135deg,#7c3aed,#5b21b6);box-shadow:0 6px 18px rgba(124,58,237,.3)}
+    .btn-gold{background:linear-gradient(135deg,#d97706,#92400e);box-shadow:0 6px 18px rgba(217,119,6,.3)}
     .btn-sm{width:auto;padding:6px 14px;font-size:.8rem;border-radius:999px;font-weight:600}
     .btn-xs{width:auto;padding:4px 10px;font-size:.72rem;border-radius:999px;font-weight:600}
 
-    /* TOPBAR */
-    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-shrink:0;flex-wrap:wrap;gap:8px;z-index:10}
+    /* ── TOPBAR ── */
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;
+      flex-shrink:0;flex-wrap:wrap;gap:8px;z-index:10}
     .topbar-title{font-size:1.05rem;font-weight:700}
     .topbar-sub{font-size:.75rem;color:var(--subtext);margin-top:2px}
-    .user-email{font-size:.72rem;color:var(--subtext)}
 
-    /* LOGIN */
+    /* ── LOGIN ── */
     .login-wrap{margin:auto 0;padding:24px 0}
     .login-logo{font-size:3rem;text-align:center;margin-bottom:10px}
     .login-title{font-size:2.1rem;font-weight:900;text-align:center;margin-bottom:6px;
@@ -64,7 +64,7 @@
       transition:all .15s;box-shadow:0 8px 28px rgba(0,0,0,.45)}
     .google-btn:hover{background:#f0f4ff;transform:translateY(-1px)}
 
-    /* SEARCH */
+    /* ── SEARCH ── */
     .search-wrap{position:relative;margin-bottom:10px;flex-shrink:0}
     .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--subtext);pointer-events:none}
     .search-input{width:100%;padding:9px 14px 9px 36px;background:var(--surface2);
@@ -73,30 +73,42 @@
     .search-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,130,246,.2)}
     .search-input::placeholder{color:var(--subtext)}
 
-    /* LIST */
+    /* ── LIST ── */
     .list-scroll{flex:1;overflow-y:auto;min-height:0;padding-bottom:8px}
     .list-scroll::-webkit-scrollbar{width:4px}
     .list-scroll::-webkit-scrollbar-thumb{background:var(--border-mid);border-radius:4px}
 
-    /* KAMUS ITEM */
-    .kamus-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);
-      padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:8px;
-      transition:border-color .2s,box-shadow .2s}
+    /* ── KAMUS ITEM ── */
+    .kamus-item{background:var(--surface2);border:1px solid var(--border);
+      border-radius:var(--radius-sm);padding:11px 13px;margin-bottom:7px;
+      display:flex;align-items:center;gap:8px;transition:border-color .2s,box-shadow .2s}
     .kamus-item:hover{border-color:var(--border-mid);box-shadow:0 4px 14px rgba(0,0,0,.3)}
     .kamus-name-input{flex:1;background:transparent;border:none;border-bottom:1px solid var(--border-mid);
       color:var(--text);font-weight:600;font-size:.9rem;padding:2px 4px;outline:none}
     .kamus-name-input:focus{border-bottom-color:var(--accent)}
     .kamus-open-btn{background:rgba(59,130,246,.14);border:1px solid rgba(59,130,246,.38);
-      color:var(--accent2);border-radius:8px;padding:6px 12px;font-size:.76rem;font-weight:700;
-      cursor:pointer;white-space:nowrap;transition:all .15s}
+      color:var(--accent2);border-radius:8px;padding:6px 12px;
+      font-size:.76rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s}
     .kamus-open-btn:hover{background:rgba(59,130,246,.26)}
 
-    /* EMPTY */
+    /* ── TONG SAMPAH 30 HARI ── */
+    .recycle-section{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.22);
+      border-radius:var(--radius-sm);padding:9px 11px;margin-top:10px;flex-shrink:0}
+    .recycle-header{display:flex;align-items:center;gap:6px;font-size:.78rem;
+      font-weight:700;color:#fcd34d;cursor:pointer;user-select:none}
+    .recycle-item{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.18);
+      border-radius:8px;padding:8px 10px;margin-top:6px;
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .recycle-name{flex:1;font-weight:600;font-size:.88rem;color:var(--text);min-width:0;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .recycle-days{font-size:.7rem;color:#fcd34d;white-space:nowrap}
+
+    /* ── EMPTY ── */
     .empty-state{text-align:center;padding:36px 16px;color:var(--subtext);font-size:.85rem;
       display:flex;flex-direction:column;align-items:center;gap:10px}
     .empty-icon{font-size:2.4rem;opacity:.4}
 
-    /* UPLOAD */
+    /* ── UPLOAD ── */
     .upload-zone{border:2px dashed var(--border-mid);border-radius:var(--radius);
       padding:16px;text-align:center;cursor:pointer;margin-bottom:8px;flex-shrink:0;
       transition:border-color .2s,background .2s;position:relative}
@@ -105,27 +117,45 @@
     .upload-zone-icon{font-size:1.8rem;pointer-events:none}
     .upload-zone-text{font-size:.82rem;color:var(--subtext);pointer-events:none;margin-top:6px}
     .upload-format-hint{font-size:.7rem;color:#64748b;margin-top:2px}
-
-    /* QUEUE STATUS */
     .queue-status{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);
       border-radius:8px;padding:6px 12px;margin-bottom:6px;font-size:.76rem;
       color:var(--accent2);font-weight:600;flex-shrink:0;display:none}
-
-    /* PROGRESS */
     #upload-progress-list{margin-bottom:6px;flex-shrink:0}
-    .upload-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:5px}
-    .upload-item-name{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .upload-item{background:var(--surface2);border:1px solid var(--border);
+      border-radius:8px;padding:8px 12px;margin-bottom:5px}
+    .upload-item-name{font-size:.78rem;font-weight:600;margin-bottom:4px;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .upload-bar-wrap{width:100%;height:4px;background:var(--border);border-radius:4px;overflow:hidden}
-    .upload-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .15s ease}
+    .upload-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
+      border-radius:4px;transition:width .15s ease}
     .upload-pct{font-size:.68rem;color:var(--subtext);margin-top:2px}
 
-    /* TRASH */
+    /* ── BUKU STATUS (error log) ── */
+    .buku-section{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.22);
+      border-radius:var(--radius-sm);padding:9px 11px;margin-bottom:8px;flex-shrink:0}
+    .buku-header{display:flex;align-items:center;gap:6px;font-size:.78rem;
+      font-weight:700;color:#fcd34d;cursor:pointer;user-select:none}
+    .buku-item{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);
+      border-radius:8px;padding:7px 10px;margin-top:6px;
+      display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+    .buku-type{font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:999px;
+      white-space:nowrap;flex-shrink:0;margin-top:2px}
+    .buku-type-error{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+    .buku-type-dup{background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.3)}
+    .buku-info{flex:1;min-width:0}
+    .buku-msg{font-size:.78rem;color:var(--text);font-weight:600;overflow:hidden;
+      text-overflow:ellipsis;white-space:nowrap}
+    .buku-time{font-size:.66rem;color:var(--subtext);margin-top:2px}
+    .buku-empty{text-align:center;padding:12px;color:var(--subtext);font-size:.78rem;font-style:italic}
+
+    /* ── TRASH (format salah) ── */
     .trash-section{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.22);
       border-radius:var(--radius-sm);padding:9px 11px;margin-bottom:8px;flex-shrink:0}
-    .trash-header{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;
-      color:#fca5a5;cursor:pointer;user-select:none}
+    .trash-header{display:flex;align-items:center;gap:6px;font-size:.78rem;
+      font-weight:700;color:#fca5a5;cursor:pointer;user-select:none}
     .trash-item{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);
-      border-radius:8px;padding:7px 9px;margin-top:6px;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+      border-radius:8px;padding:7px 9px;margin-top:6px;
+      display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
     .trash-thumb{width:42px;height:42px;border-radius:6px;background:rgba(239,68,68,.12);
       border:1px solid rgba(239,68,68,.25);flex-shrink:0;cursor:pointer;
       display:flex;align-items:center;justify-content:center;font-size:1.3rem}
@@ -136,13 +166,11 @@
     .trash-hint{font-size:.66rem;color:#fca5a5;margin-top:3px}
     .trash-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
 
-    /* PAGE ITEM */
-    .page-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);
-      padding:10px 12px;margin-bottom:7px;transition:border-color .2s}
+    /* ── PAGE ITEM ── */
+    .page-item{background:var(--surface2);border:1px solid var(--border);
+      border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:7px;transition:border-color .2s}
     .page-item.is-done{border-color:rgba(34,197,94,.32);background:rgba(22,163,74,.05)}
     .page-item-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-
-    /* ── PLACEHOLDER (lazy load, no img request) ── */
     .img-placeholder{width:52px;height:56px;background:rgba(59,130,246,.1);
       border:1px solid rgba(59,130,246,.28);border-radius:8px;
       display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -151,7 +179,6 @@
     .img-placeholder.done-ph{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3)}
     .img-placeholder.done-ph:hover{background:rgba(34,197,94,.2)}
     .ph-ms{font-size:.54rem;font-weight:800;letter-spacing:.04em;text-align:center;line-height:1}
-
     .page-ms-name{flex:1;font-weight:800;font-size:1.05rem;
       background:linear-gradient(135deg,var(--accent2),#93c5fd);
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -159,37 +186,39 @@
       background:rgba(34,197,94,.14);color:#86efac;border:1px solid rgba(34,197,94,.3)}
     .page-actions{display:flex;gap:5px;flex-wrap:wrap}
 
-    /* DONE */
+    /* ── DONE ── */
     .done-count-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;
       border-radius:999px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.28);
       font-size:.76rem;color:#86efac;font-weight:600}
-    .chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;
-      border:1px solid var(--border-mid);font-size:.7rem;color:var(--subtext);background:var(--surface2)}
+    .chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;
+      border-radius:999px;border:1px solid var(--border-mid);
+      font-size:.7rem;color:var(--subtext);background:var(--surface2)}
 
-    /* ── MISSING MS MODAL ── */
+    /* ── MISSING MODAL ── */
     #missing-modal{display:none;position:fixed;inset:0;z-index:9998;
       background:rgba(0,0,0,.75);align-items:center;justify-content:center;
       padding:20px;backdrop-filter:blur(4px)}
     #missing-modal.open{display:flex}
-    .missing-card{background:#0f172a;border:1px solid var(--border-mid);border-radius:var(--radius);
-      padding:22px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.85)}
+    .missing-card{background:#0f172a;border:1px solid var(--border-mid);
+      border-radius:var(--radius);padding:22px;width:100%;max-width:400px;
+      box-shadow:0 20px 60px rgba(0,0,0,.85)}
     .missing-title{font-size:.95rem;font-weight:700;color:var(--accent2);margin-bottom:4px}
     .missing-range{font-size:.76rem;color:var(--subtext);margin-bottom:12px}
     .missing-count{font-size:.8rem;font-weight:700;color:#fca5a5;margin-bottom:8px}
-    .missing-chips-wrap{max-height:220px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:6px;padding:2px;margin-bottom:14px}
+    .missing-chips-wrap{max-height:220px;overflow-y:auto;display:flex;flex-wrap:wrap;
+      gap:6px;padding:2px;margin-bottom:14px}
     .missing-chips-wrap::-webkit-scrollbar{width:4px}
     .missing-chips-wrap::-webkit-scrollbar-thumb{background:var(--border-mid);border-radius:4px}
     .missing-chip{padding:4px 10px;border-radius:6px;font-size:.76rem;font-weight:700;
-      background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5;
-      letter-spacing:.04em}
+      background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5;letter-spacing:.04em}
     .missing-ok{color:#86efac;font-size:.85rem;text-align:center;padding:16px}
 
-    /* VIEWER */
+    /* ── IMAGE VIEWER ── */
     #image-viewer{display:none;position:fixed;inset:0;z-index:999999;background:#000;
       flex-direction:column;align-items:center;justify-content:center}
     #image-viewer.open{display:flex}
-    .viewer-bar{position:absolute;top:0;left:0;right:0;padding:14px 16px;display:flex;
-      align-items:center;justify-content:space-between;
+    .viewer-bar{position:absolute;top:0;left:0;right:0;padding:14px 16px;
+      display:flex;align-items:center;justify-content:space-between;
       background:linear-gradient(to bottom,rgba(0,0,0,.75),transparent);z-index:2;pointer-events:none}
     .viewer-bar>*{pointer-events:auto}
     .viewer-ms{font-size:1rem;font-weight:800;color:white}
@@ -207,8 +236,7 @@
       color:white;font-size:1.4rem;display:flex;align-items:center;justify-content:center;
       cursor:pointer;z-index:2;transition:background .15s}
     .viewer-arrow:hover{background:rgba(255,255,255,.16)}
-    #viewer-prev{left:8px}
-    #viewer-next{right:8px}
+    #viewer-prev{left:8px}#viewer-next{right:8px}
     .viewer-footer{position:absolute;bottom:0;left:0;right:0;padding:12px 16px;
       display:flex;flex-direction:column;align-items:center;gap:4px;
       background:linear-gradient(to top,rgba(0,0,0,.65),transparent);z-index:2;pointer-events:none}
@@ -216,7 +244,7 @@
       padding:3px 12px;border-radius:999px}
     .viewer-zoom-hint{font-size:.66rem;color:rgba(255,255,255,.3)}
 
-    /* EDIT MS MODAL */
+    /* ── EDIT MS MODAL ── */
     #edit-ms-modal{display:none;position:fixed;inset:0;z-index:9999;
       background:rgba(0,0,0,.75);align-items:center;justify-content:center;
       padding:20px;backdrop-filter:blur(4px)}
@@ -234,16 +262,17 @@
     #ms-number-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,130,246,.2)}
     .modal-btns{display:flex;gap:8px}
 
-    /* TOAST */
+    /* ── TOAST ── */
     #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);
       background:rgba(23,52,114,.97);color:white;padding:10px 22px;border-radius:999px;
       font-size:.83rem;font-weight:600;opacity:0;
       transition:all .3s cubic-bezier(.175,.885,.32,1.275);
       z-index:9999999;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.5);
-      border:1px solid rgba(59,130,246,.35);white-space:nowrap;max-width:90vw;
-      overflow:hidden;text-overflow:ellipsis}
+      border:1px solid rgba(59,130,246,.35);white-space:nowrap;
+      max-width:90vw;overflow:hidden;text-overflow:ellipsis}
     #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-    .mt-10{margin-top:10px}.flex-0{flex-shrink:0}.row-b{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .mt-10{margin-top:10px}.flex-0{flex-shrink:0}
+    .row-b{display:flex;align-items:center;justify-content:space-between;gap:8px}
   </style>
 </head>
 <body>
@@ -265,7 +294,7 @@
   <button class="viewer-arrow" id="viewer-next">›</button>
   <div class="viewer-footer">
     <div class="viewer-counter" id="viewer-counter">1 / 1</div>
-    <div class="viewer-zoom-hint" id="viewer-zoom-hint">Ketuk 2x untuk zum • Leret untuk navigate</div>
+    <div class="viewer-zoom-hint" id="viewer-zoom-hint"></div>
   </div>
 </div>
 
@@ -280,19 +309,19 @@
     </div>
     <div class="modal-btns">
       <button class="btn btn-success btn-sm" id="btn-save-ms">✓ Simpan</button>
-      <button class="btn btn-secondary btn-sm" id="btn-cancel-ms">Batal</button>
+      <button class="btn btn-sec btn-sm" id="btn-cancel-ms">Batal</button>
     </div>
   </div>
 </div>
 
-<!-- MISSING MS MODAL -->
+<!-- MISSING MODAL -->
 <div id="missing-modal">
   <div class="missing-card">
     <div class="missing-title">🔍 Semakan Muka Surat</div>
     <div class="missing-range" id="missing-range"></div>
     <div class="missing-count" id="missing-count"></div>
     <div class="missing-chips-wrap" id="missing-chips"></div>
-    <button class="btn btn-secondary btn-sm" id="btn-close-missing" style="width:100%;">✕ Tutup</button>
+    <button class="btn btn-sec btn-sm" id="btn-close-missing" style="width:100%">✕ Tutup</button>
   </div>
 </div>
 
@@ -315,31 +344,54 @@
     <div class="topbar">
       <div>
         <div class="topbar-title">📚 Senarai Kamus</div>
-        <div class="user-email" id="home-email"></div>
+        <div style="font-size:.72rem;color:var(--subtext)" id="home-email"></div>
       </div>
-      <button class="btn btn-secondary btn-sm" id="btn-logout">Log Keluar</button>
+      <button class="btn btn-sec btn-sm" id="btn-logout">Log Keluar</button>
     </div>
     <div class="search-wrap flex-0">
       <span class="search-icon">🔍</span>
       <input type="text" id="kamus-search" class="search-input" placeholder="Cari kamus..." />
     </div>
     <button class="btn flex-0 mt-10" id="btn-add-kamus" style="margin-bottom:10px">+ Tambah Kamus</button>
-    <div class="list-scroll" id="kamus-list"></div>
+    <div class="list-scroll" id="kamus-list-wrap">
+      <div id="kamus-list"></div>
+      <!-- Tong Sampah 30 Hari (dalam scroll) -->
+      <div class="recycle-section" id="recycle-section" style="display:none">
+        <div class="recycle-header" id="recycle-toggle">
+          🗑️ <span id="recycle-label">Tong Sampah 30 Hari (0)</span>
+          <span id="recycle-arrow" style="margin-left:auto;font-size:.7rem;color:var(--subtext)">▼</span>
+        </div>
+        <div id="recycle-list"></div>
+      </div>
+    </div>
   </section>
 
   <!-- PAGES -->
   <section id="section-pages" class="section">
     <div class="topbar">
-      <button class="btn btn-secondary btn-sm" id="btn-back-home">← Kamus</button>
+      <button class="btn btn-sec btn-sm" id="btn-back-home">← Kamus</button>
       <div style="text-align:right">
         <div class="topbar-title" id="pages-title" style="color:var(--accent2);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">—</div>
         <div class="topbar-sub">Gambar Muka Surat</div>
       </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+      <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
         <button class="btn btn-purple btn-sm" id="btn-check-ms">🔍 Semak MS</button>
         <button class="btn btn-success btn-sm" id="btn-view-done">✅ Done</button>
       </div>
     </div>
+
+    <!-- Buku Status -->
+    <div class="buku-section" id="buku-section" style="display:none">
+      <div class="buku-header" id="buku-toggle">
+        📋 <span id="buku-label">Buku Status (0)</span>
+        <span style="margin-left:auto;font-size:.65rem;color:var(--subtext)">Auto-buang 7 hari</span>
+        <span id="buku-arrow" style="margin-left:6px;font-size:.7rem;color:var(--subtext)">▼</span>
+        <button class="btn btn-sec btn-xs" id="btn-clear-buku" style="margin-left:6px;padding:2px 8px;font-size:.65rem">Kosongkan</button>
+      </div>
+      <div id="buku-list"></div>
+    </div>
+
+    <!-- Trash (format salah) -->
     <div id="trash-section" class="trash-section flex-0" style="display:none">
       <div class="trash-header" id="trash-toggle">
         🗑️ <span id="trash-label">Tong Sampah (0)</span>
@@ -347,14 +399,18 @@
       </div>
       <div id="trash-list"></div>
     </div>
+
+    <!-- Upload -->
     <div class="upload-zone flex-0" id="upload-zone">
       <input type="file" id="file-input" accept="image/*" multiple />
       <div class="upload-zone-icon">🖼️</div>
       <div class="upload-zone-text">Ketuk atau seret gambar untuk upload</div>
-      <div class="upload-format-hint">Format nama: MS001, MS042 (MS huruf besar + nombor) • Upload satu-satu ikut nombor</div>
+      <div class="upload-format-hint">Format: MS001, MS042 (MS huruf besar + nombor) • Nama sama = auto-skip</div>
     </div>
     <div class="queue-status" id="queue-status"></div>
     <div id="upload-progress-list" class="flex-0"></div>
+
+    <!-- Search -->
     <div class="search-wrap flex-0">
       <span class="search-icon">🔍</span>
       <input type="text" id="pages-search" class="search-input" placeholder="Cari MS001, MS042..." />
@@ -365,7 +421,7 @@
   <!-- DONE -->
   <section id="section-done" class="section">
     <div class="topbar">
-      <button class="btn btn-secondary btn-sm" id="btn-back-pages">← Gambar</button>
+      <button class="btn btn-sec btn-sm" id="btn-back-pages">← Gambar</button>
       <div style="text-align:right">
         <div class="topbar-title" style="color:#86efac">✅ Done Project</div>
         <div class="topbar-sub" id="done-title">—</div>
@@ -384,7 +440,7 @@
   import{initializeApp}from"https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
   import{getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged,setPersistence,browserLocalPersistence}
     from"https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-  import{getFirestore,doc,collection,addDoc,updateDoc,deleteDoc,onSnapshot,getDocs}
+  import{getFirestore,doc,collection,addDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,where,orderBy}
     from"https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
   import{getStorage,ref as sRef,uploadBytesResumable,getDownloadURL,deleteObject}
     from"https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
@@ -401,20 +457,18 @@
   const app=initializeApp(firebaseConfig);
   const auth=getAuth(app),db=getFirestore(app),storage=getStorage(app),gProv=new GoogleAuthProvider();
 
-  // STATE
+  // ── STATE ──────────────────────────────────────────────────────
   let currentUser=null,currentKamusId=null,currentKamusNm="";
-  let allKamus=[],allPages=[];
-  let kamusUnsub=null,pagesUnsub=null;
-  let trashOpen=true,editingPageId=null;
-  let viewerImages=[],viewerIdx=0;
-  let viewerZoom=1,viewerPanX=0,viewerPanY=0;
+  let allKamus=[],allPages=[],allBuku=[];
+  let kamusUnsub=null,pagesUnsub=null,bukuUnsub=null;
+  let trashOpen=true,bukuOpen=true,recycleOpen=true,editingPageId=null;
+  let viewerImages=[],viewerIdx=0,viewerZoom=1,viewerPanX=0,viewerPanY=0;
+  let uploadQueue=[],isUploading=false,qTotal=0,qDone=0;
 
-  // UPLOAD QUEUE STATE
-  let uploadQueue=[];
-  let isUploading=false;
-  let qTotal=0,qDone=0;
+  const DAY7=7*24*60*60*1000;
+  const DAY30=30*24*60*60*1000;
 
-  // UTILS
+  // ── UTILS ─────────────────────────────────────────────────────
   let toastTmr=null;
   function showToast(msg,dur=3200){
     const el=document.getElementById('toast');
@@ -430,79 +484,234 @@
   function buildMS(n){return'MS'+String(n).padStart(3,'0')}
   function getExt(n){const m=n.match(/\.[^/.]+$/);return m?m[0].toLowerCase():'.jpg'}
   function uid6(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5)}
+  function timeAgo(ts){
+    const s=Math.floor((Date.now()-ts)/1000);
+    if(s<60)return'Baru sahaja';if(s<3600)return`${Math.floor(s/60)} min lalu`;
+    if(s<86400)return`${Math.floor(s/3600)} jam lalu`;return`${Math.floor(s/86400)} hari lalu`;
+  }
+  function daysLeft(ts){return Math.max(0,Math.ceil((ts+DAY30-Date.now())/86400000))}
 
-  // AUTH
+  // ── AUTH ──────────────────────────────────────────────────────
   setPersistence(auth,browserLocalPersistence);
-  onAuthStateChanged(auth,user=>{
+  onAuthStateChanged(auth,async user=>{
     currentUser=user;
     if(user){
       document.getElementById('home-email').textContent=user.email;
-      subscribeKamus();goTo('section-home');
+      await cleanupOld();   // auto-cleanup on login
+      subscribeKamus();
+      goTo('section-home');
     }else{
-      [kamusUnsub,pagesUnsub].forEach(u=>u&&u());
-      kamusUnsub=pagesUnsub=null;goTo('section-login');
+      [kamusUnsub,pagesUnsub,bukuUnsub].forEach(u=>u&&u());
+      kamusUnsub=pagesUnsub=bukuUnsub=null;
+      goTo('section-login');
     }
   });
   document.getElementById('btn-login').onclick=()=>signInWithPopup(auth,gProv).catch(e=>showToast('Gagal: '+e.message));
   document.getElementById('btn-logout').onclick=()=>signOut(auth);
 
-  // KAMUS
+  // ── AUTO CLEANUP ───────────────────────────────────────────────
+  async function cleanupOld(){
+    if(!currentUser)return;
+    try{
+      // 1. Buku Status > 7 hari
+      const bSnap=await getDocs(collection(db,'users',currentUser.uid,'status_log'));
+      for(const d of bSnap.docs){
+        if(Date.now()-d.data().createdAt>DAY7)await deleteDoc(d.ref);
+      }
+      // 2. Tong Sampah 30 hari → permanently delete
+      const kSnap=await getDocs(collection(db,'users',currentUser.uid,'kamus'));
+      for(const d of kSnap.docs){
+        const dat=d.data();
+        if(dat.deleted&&dat.deletedAt&&Date.now()-dat.deletedAt>DAY30){
+          await deepDeleteKamus(d.id);
+        }
+      }
+    }catch(_){}
+  }
+
+  // ── LOG BUKU STATUS ───────────────────────────────────────────
+  async function logBuku(type,msg,fileName){
+    if(!currentUser||!currentKamusId)return;
+    await addDoc(collection(db,'users',currentUser.uid,'status_log'),{
+      type,msg,fileName:fileName||'',
+      kamusId:currentKamusId,kamusName:currentKamusNm,
+      createdAt:Date.now()
+    });
+  }
+
+  // ── SUBSCRIBE BUKU STATUS ─────────────────────────────────────
+  function subscribeBuku(){
+    if(!currentUser||!currentKamusId)return;
+    if(bukuUnsub)bukuUnsub();
+    bukuUnsub=onSnapshot(
+      query(collection(db,'users',currentUser.uid,'status_log'),where('kamusId','==',currentKamusId)),
+      snap=>{
+        allBuku=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.createdAt-a.createdAt);
+        renderBuku();
+      }
+    );
+  }
+
+  function renderBuku(){
+    const sec=document.getElementById('buku-section');
+    document.getElementById('buku-label').textContent=`Buku Status (${allBuku.length})`;
+    sec.style.display=allBuku.length?'block':'none';
+    const list=document.getElementById('buku-list');
+    list.style.display=bukuOpen?'block':'none';
+    document.getElementById('buku-arrow').textContent=bukuOpen?'▼':'▶';
+    if(!allBuku.length){list.innerHTML='';return}
+    list.innerHTML='';
+    allBuku.forEach(b=>{
+      const div=document.createElement('div');div.className='buku-item';
+      const typeClass=b.type==='duplicate'?'buku-type-dup':'buku-type-error';
+      const typeLabel=b.type==='duplicate'?'Nama Duplikat':'Upload Error';
+      div.innerHTML=`
+        <span class="buku-type ${typeClass}">${typeLabel}</span>
+        <div class="buku-info">
+          <div class="buku-msg">${esc(b.msg||'')}</div>
+          <div class="buku-time">${esc(b.fileName||'')} • ${timeAgo(b.createdAt)}</div>
+        </div>
+        <button class="btn btn-sec btn-xs">✕</button>
+      `;
+      div.querySelector('button').onclick=()=>deleteDoc(doc(db,'users',currentUser.uid,'status_log',b.id));
+      list.appendChild(div);
+    });
+  }
+
+  document.getElementById('buku-toggle').addEventListener('click',e=>{
+    if(e.target.closest('#btn-clear-buku'))return;
+    bukuOpen=!bukuOpen;
+    document.getElementById('buku-list').style.display=bukuOpen?'block':'none';
+    document.getElementById('buku-arrow').textContent=bukuOpen?'▼':'▶';
+  });
+  document.getElementById('btn-clear-buku').onclick=async()=>{
+    if(!confirm('Kosongkan semua log buku status untuk kamus ini?'))return;
+    for(const b of allBuku)await deleteDoc(doc(db,'users',currentUser.uid,'status_log',b.id));
+    showToast('Buku Status dikosongkan.');
+  };
+
+  // ── KAMUS ─────────────────────────────────────────────────────
   function subscribeKamus(){
     if(kamusUnsub)kamusUnsub();
     kamusUnsub=onSnapshot(collection(db,'users',currentUser.uid,'kamus'),snap=>{
       allKamus=snap.docs.map(d=>({id:d.id,...d.data()}));
       allKamus.sort((a,b)=>(a.name||'').localeCompare(b.name||'',undefined,{numeric:true,sensitivity:'base'}));
       renderKamus();
+      renderRecycle();
     });
   }
+
   function renderKamus(){
     const q=document.getElementById('kamus-search').value.toLowerCase();
+    const active=allKamus.filter(k=>!k.deleted);
+    const filtered=active.filter(k=>(k.name||'').toLowerCase().includes(q));
     const list=document.getElementById('kamus-list');
-    const filtered=allKamus.filter(k=>(k.name||'').toLowerCase().includes(q));
-    if(!filtered.length){list.innerHTML=`<div class="empty-state"><div class="empty-icon">📖</div><div>${allKamus.length?'Tiada hasil carian.':'Belum ada kamus.<br>Tekan "+ Tambah Kamus".'}</div></div>`;return}
+    if(!filtered.length){
+      list.innerHTML=`<div class="empty-state"><div class="empty-icon">📖</div><div>${active.length?'Tiada hasil carian.':'Belum ada kamus.<br>Tekan "+ Tambah Kamus".'}</div></div>`;
+      return;
+    }
     list.innerHTML='';
     filtered.forEach(k=>{
       const div=document.createElement('div');div.className='kamus-item';
-      div.innerHTML=`<span style="font-size:1.1rem;flex-shrink:0">📚</span>
+      div.innerHTML=`
+        <span style="font-size:1.1rem;flex-shrink:0">📚</span>
         <input class="kamus-name-input" value="${esc(k.name||'')}" placeholder="Nama kamus..."/>
         <button class="kamus-open-btn">Buka →</button>
-        <button class="btn btn-danger btn-xs" title="Padam">🗑</button>`;
+        <button class="btn btn-danger btn-xs" title="Hantar ke tong sampah">🗑</button>
+      `;
       const inp=div.querySelector('.kamus-name-input');
       inp.addEventListener('change',()=>updateDoc(doc(db,'users',currentUser.uid,'kamus',k.id),{name:inp.value}));
       div.querySelector('.kamus-open-btn').onclick=()=>openKamus(k.id,k.name||'Tanpa Nama');
-      div.querySelector('.btn-danger').onclick=()=>{if(confirm(`Padam "${k.name}"?\nSemua gambar turut dipadam.`))deleteKamusDeep(k.id)};
+      div.querySelector('.btn-danger').onclick=()=>softDeleteKamus(k.id,k.name);
       list.appendChild(div);
     });
   }
+
+  function renderRecycle(){
+    const deleted=allKamus.filter(k=>k.deleted);
+    const sec=document.getElementById('recycle-section');
+    document.getElementById('recycle-label').textContent=`Tong Sampah 30 Hari (${deleted.length})`;
+    sec.style.display=deleted.length?'block':'none';
+    const list=document.getElementById('recycle-list');
+    list.style.display=recycleOpen?'block':'none';
+    document.getElementById('recycle-arrow').textContent=recycleOpen?'▼':'▶';
+    list.innerHTML='';
+    deleted.forEach(k=>{
+      const days=daysLeft(k.deletedAt||0);
+      const div=document.createElement('div');div.className='recycle-item';
+      div.innerHTML=`
+        <span style="font-size:1.1rem;flex-shrink:0">📚</span>
+        <div class="recycle-name" title="${esc(k.name||'')}">${esc(k.name||'Tanpa Nama')}</div>
+        <div class="recycle-days">${days} hari lagi</div>
+        <button class="btn btn-success btn-xs">↩️ Kembalikan</button>
+        <button class="btn btn-danger btn-xs">🗑 Padam</button>
+      `;
+      const [bRestore,bDel]=div.querySelectorAll('button');
+      bRestore.onclick=()=>restoreKamus(k.id);
+      bDel.onclick=()=>{if(confirm(`Padam "${k.name}" selamanya?\nSemua gambar turut dipadam.`))deepDeleteKamus(k.id)};
+      list.appendChild(div);
+    });
+  }
+
+  document.getElementById('recycle-toggle').onclick=()=>{
+    recycleOpen=!recycleOpen;
+    document.getElementById('recycle-list').style.display=recycleOpen?'block':'none';
+    document.getElementById('recycle-arrow').textContent=recycleOpen?'▼':'▶';
+  };
+
   document.getElementById('kamus-search').addEventListener('input',renderKamus);
   document.getElementById('btn-add-kamus').onclick=async()=>{
-    await addDoc(collection(db,'users',currentUser.uid,'kamus'),{name:'Kamus Baharu',createdAt:Date.now()});
+    await addDoc(collection(db,'users',currentUser.uid,'kamus'),{name:'Kamus Baharu',createdAt:Date.now(),deleted:false});
     showToast('✅ Kamus ditambah!');
   };
-  async function deleteKamusDeep(id){
-    showToast('Sedang memadam…',0);
+
+  // Soft delete → masuk tong sampah 30 hari
+  async function softDeleteKamus(id,name){
+    if(!confirm(`Hantar "${name}" ke Tong Sampah?\nKamus boleh dipulihkan dalam 30 hari.`))return;
+    await updateDoc(doc(db,'users',currentUser.uid,'kamus',id),{deleted:true,deletedAt:Date.now()});
+    showToast('🗑️ Kamus dihantar ke Tong Sampah 30 Hari.');
+  }
+
+  // Restore kamus
+  async function restoreKamus(id){
+    await updateDoc(doc(db,'users',currentUser.uid,'kamus',id),{deleted:false,deletedAt:null});
+    showToast('✅ Kamus berjaya dikembalikan!');
+  }
+
+  // Deep delete (permanent)
+  async function deepDeleteKamus(id){
     try{
       const snap=await getDocs(collection(db,'users',currentUser.uid,'kamus',id,'pages'));
-      for(const d of snap.docs){if(d.data().storagePath)try{await deleteObject(sRef(storage,d.data().storagePath))}catch(_){}await deleteDoc(d.ref)}
+      for(const d of snap.docs){
+        if(d.data().storagePath)try{await deleteObject(sRef(storage,d.data().storagePath))}catch(_){}
+        await deleteDoc(d.ref);
+      }
+      // Delete status logs for this kamus
+      const lSnap=await getDocs(query(collection(db,'users',currentUser.uid,'status_log'),where('kamusId','==',id)));
+      for(const d of lSnap.docs)await deleteDoc(d.ref);
       await deleteDoc(doc(db,'users',currentUser.uid,'kamus',id));
-      showToast('Kamus berjaya dipadam.');
+      showToast('Kamus dipadam selamanya.');
     }catch(e){showToast('Gagal: '+e.message)}
   }
 
-  // OPEN KAMUS
+  // ── OPEN KAMUS ────────────────────────────────────────────────
   function openKamus(id,name){
     currentKamusId=id;currentKamusNm=name;
     document.getElementById('pages-title').textContent=name;
     document.getElementById('done-title').textContent=name;
-    subscribePages();goTo('section-pages');
+    subscribePages();
+    subscribeBuku();
+    goTo('section-pages');
   }
   document.getElementById('btn-back-home').onclick=()=>{
-    if(pagesUnsub){pagesUnsub();pagesUnsub=null}currentKamusId=null;goTo('section-home');
+    if(pagesUnsub){pagesUnsub();pagesUnsub=null}
+    if(bukuUnsub){bukuUnsub();bukuUnsub=null}
+    currentKamusId=null;goTo('section-home');
   };
   document.getElementById('btn-view-done').onclick=()=>{renderDone();goTo('section-done')};
   document.getElementById('btn-back-pages').onclick=()=>goTo('section-pages');
 
-  // PAGES
+  // ── PAGES SUBSCRIPTION ───────────────────────────────────────
   function subscribePages(){
     if(!currentUser||!currentKamusId)return;
     if(pagesUnsub)pagesUnsub();
@@ -513,14 +722,17 @@
     });
   }
 
-  // ── RENDER ACTIVE (tiada <img> — hanya placeholder) ──────────
+  // ── RENDER ACTIVE (no img thumbnail) ─────────────────────────
   function renderActive(){
     const q=document.getElementById('pages-search').value.toLowerCase();
     const active=allPages.filter(p=>p.status==='active').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
     viewerImages=active.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
     const filtered=active.filter(p=>(p.msName||'').toLowerCase().includes(q));
     const list=document.getElementById('pages-list');
-    if(!filtered.length){list.innerHTML=`<div class="empty-state"><div class="empty-icon">🖼️</div><div>${active.length?'Tiada hasil carian.':'Belum ada gambar.<br>Upload gambar di atas.'}</div></div>`;return}
+    if(!filtered.length){
+      list.innerHTML=`<div class="empty-state"><div class="empty-icon">🖼️</div><div>${active.length?'Tiada hasil carian.':'Belum ada gambar.<br>Upload gambar di atas.'}</div></div>`;
+      return;
+    }
     list.innerHTML='';
     filtered.forEach(p=>{
       const div=document.createElement('div');div.className='page-item';
@@ -531,17 +743,16 @@
             <span class="ph-ms" style="color:var(--accent2)">${esc(p.msName||'')}</span>
           </div>
           <div class="page-ms-name">${esc(p.msName||'?')}</div>
-          <span style="font-size:.68rem;color:var(--subtext);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(p.originalName||'')}">${esc(p.originalName||'')}</span>
+          <span style="font-size:.68rem;color:var(--subtext);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.originalName||'')}</span>
         </div>
         <div class="page-actions">
           <button class="btn btn-success btn-xs">✅ Done</button>
-          <button class="btn btn-secondary btn-xs">👁 Lihat</button>
-          <button class="btn btn-warning btn-xs">✏️ Sunting MS</button>
+          <button class="btn btn-sec btn-xs">👁 Lihat</button>
+          <button class="btn btn-warning btn-xs">✏️ MS</button>
           <button class="btn btn-danger btn-xs">🗑 Padam</button>
         </div>`;
-      const [bDone,bView,bEdit,bDel]=div.querySelectorAll('button');
-      const ph=div.querySelector('.img-placeholder');
-      ph.onclick=()=>openViewer(p.id,'active');
+      const[bDone,bView,bEdit,bDel]=div.querySelectorAll('button');
+      div.querySelector('.img-placeholder').onclick=()=>openViewer(p.id,'active');
       bView.onclick=()=>openViewer(p.id,'active');
       bDone.onclick=()=>setStatus(p.id,'done');
       bEdit.onclick=()=>openEditMS(p.id,p.msName);
@@ -551,7 +762,7 @@
   }
   document.getElementById('pages-search').addEventListener('input',renderActive);
 
-  // ── RENDER TRASH (tiada <img>) ────────────────────────────────
+  // ── RENDER TRASH (format salah) ───────────────────────────────
   function renderTrash(){
     const trash=allPages.filter(p=>p.status==='trash');
     const sec=document.getElementById('trash-section');
@@ -564,20 +775,18 @@
     trash.forEach(p=>{
       const div=document.createElement('div');div.className='trash-item';
       div.innerHTML=`
-        <div class="trash-thumb" title="Klik untuk lihat">🖼️</div>
+        <div class="trash-thumb">🖼️</div>
         <div class="trash-info">
           <input class="trash-name-input" value="${esc(p.originalName||'')}" placeholder="Betulkan nama fail..."/>
           <div class="trash-hint">⚠️ Format salah. Guna: MS001, MS042 (MS besar + nombor)</div>
         </div>
         <div class="trash-actions">
-          <button class="btn btn-secondary btn-xs">↩️ Reupload</button>
+          <button class="btn btn-sec btn-xs">↩️ Reupload</button>
           <button class="btn btn-danger btn-xs">🗑</button>
         </div>`;
       const inp=div.querySelector('.trash-name-input');
-      const th=div.querySelector('.trash-thumb');
-      const [bRe,bDel]=div.querySelectorAll('button');
-      // Viewer untuk trash — load gambar only bila klik
-      th.onclick=()=>{viewerImages=[{msName:p.originalName,url:p.storageUrl,id:p.id}];viewerIdx=0;launchViewer()};
+      const[bRe,bDel]=div.querySelectorAll('button');
+      div.querySelector('.trash-thumb').onclick=()=>{viewerImages=[{msName:p.originalName,url:p.storageUrl,id:p.id}];viewerIdx=0;launchViewer()};
       bRe.onclick=()=>{
         const raw=inp.value.trim().replace(/\.[^/.]+$/,'');
         if(!isValidMS(raw)){showToast('⚠️ Format masih salah. Contoh: MS001');return}
@@ -596,7 +805,7 @@
     document.getElementById('trash-arrow').textContent=trashOpen?'▼':'▶';
   };
 
-  // ── RENDER DONE (tiada <img>) ─────────────────────────────────
+  // ── RENDER DONE ───────────────────────────────────────────────
   function renderDone(){
     const done=allPages.filter(p=>p.status==='done').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
     const dVim=done.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
@@ -617,18 +826,17 @@
         </div>
         <div class="page-actions">
           <button class="btn btn-warning btn-xs">↩️ Undone</button>
-          <button class="btn btn-secondary btn-xs">👁 Lihat</button>
+          <button class="btn btn-sec btn-xs">👁 Lihat</button>
         </div>`;
-      const [bUndo,bView]=div.querySelectorAll('button');
+      const[bUndo,bView]=div.querySelectorAll('button');
       const openDV=()=>{viewerImages=dVim;viewerIdx=i;launchViewer()};
-      div.querySelector('.img-placeholder').onclick=openDV;
-      bView.onclick=openDV;
+      div.querySelector('.img-placeholder').onclick=openDV;bView.onclick=openDV;
       bUndo.onclick=()=>setStatus(p.id,'active');
       list.appendChild(div);
     });
   }
 
-  // STATUS / DELETE
+  // ── STATUS / DELETE ───────────────────────────────────────────
   async function setStatus(id,status){
     await updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',id),{status});
     showToast(status==='done'?'✅ Ditanda selesai!':'↩️ Dikembalikan ke senarai gambar.');
@@ -640,7 +848,7 @@
     showToast('Gambar dipadam.');
   }
 
-  // EDIT MS
+  // ── EDIT MS ───────────────────────────────────────────────────
   function openEditMS(id,curMS){
     editingPageId=id;
     document.getElementById('ms-number-input').value=curMS?String(getMSNum(curMS)):'';
@@ -657,28 +865,20 @@
     showToast('✅ Dikemaskini: '+msName);
   };
 
-  // ── SEQUENTIAL UPLOAD QUEUE ───────────────────────────────────
+  // ── SEQUENTIAL UPLOAD + DUPLICATE DETECTION ───────────────────
   function updateQueueUI(){
     const el=document.getElementById('queue-status');
     if(uploadQueue.length===0){el.style.display='none';el.textContent='';return}
     el.style.display='block';
-    const cur=uploadQueue[0]?.name||'';
-    el.textContent=`📤 Upload ${qDone+1}/${qTotal}: ${cur}  (${uploadQueue.length-1} lagi menunggu)`;
+    el.textContent=`📤 Upload ${qDone+1}/${qTotal}: ${uploadQueue[0]?.name||''}  (${uploadQueue.length-1} lagi)`;
   }
-
   async function processQueue(){
     if(isUploading||uploadQueue.length===0)return;
-    isUploading=true;
-    updateQueueUI();
+    isUploading=true;updateQueueUI();
     const file=uploadQueue[0];
     await uploadFileSingle(file);
-    uploadQueue.shift();
-    qDone++;
-    isUploading=false;
-    if(uploadQueue.length===0){
-      document.getElementById('queue-status').style.display='none';
-      qTotal=0;qDone=0;
-    }
+    uploadQueue.shift();qDone++;isUploading=false;
+    if(uploadQueue.length===0){document.getElementById('queue-status').style.display='none';qTotal=0;qDone=0}
     processQueue();
   }
 
@@ -693,14 +893,40 @@
     if(!currentUser||!currentKamusId)return;
     const imgs=files.filter(f=>f.type.startsWith('image/'));
     if(!imgs.length){showToast('⚠️ Pilih fail gambar.');return}
-    // Sort: MS valid ikut nombor naik, kemudian invalid
-    const valid=imgs.filter(f=>isValidMS(f.name.replace(/\.[^/.]+$/,'')));
-    const invalid=imgs.filter(f=>!isValidMS(f.name.replace(/\.[^/.]+$/,'')));
+
+    // ── Duplicate detection: skip nama yang SUDAH ADA ──────────
+    const existingMS=new Set(
+      allPages.filter(p=>p.status==='active'||p.status==='done').map(p=>(p.msName||'').toUpperCase())
+    );
+    const toUpload=[],duplicates=[];
+    for(const f of imgs){
+      const base=f.name.replace(/\.[^/.]+$/,'');
+      const msName=isValidMS(base)?base.toUpperCase():null;
+      if(msName&&existingMS.has(msName)){
+        duplicates.push({f,msName});
+      }else{
+        toUpload.push(f);
+      }
+    }
+    // Log duplicates ke Buku Status
+    duplicates.forEach(async({f,msName})=>{
+      await logBuku('duplicate',`${msName} sudah wujud, diabaikan`,f.name);
+    });
+    if(duplicates.length>0){
+      showToast(`⚠️ ${duplicates.length} fail diabaikan (nama sudah wujud) → Buku Status`);
+    }
+
+    // Sort valid by MS number, invalid last
+    const valid=toUpload.filter(f=>isValidMS(f.name.replace(/\.[^/.]+$/,'')));
+    const invalid=toUpload.filter(f=>!isValidMS(f.name.replace(/\.[^/.]+$/,'')));
     valid.sort((a,b)=>getMSNum(a.name.replace(/\.[^/.]+$/,'').toUpperCase())-getMSNum(b.name.replace(/\.[^/.]+$/,'').toUpperCase()));
     const toAdd=[...valid,...invalid];
-    uploadQueue.push(...toAdd);
-    qTotal+=toAdd.length;
-    showToast(`📤 ${toAdd.length} fail ditambah ke barisan. Upload bermula dari MS terkecil...`);
+    if(!toAdd.length){
+      if(!duplicates.length)showToast('⚠️ Tiada fail baharu untuk diupload.');
+      return;
+    }
+    uploadQueue.push(...toAdd);qTotal+=toAdd.length;
+    if(duplicates.length===0)showToast(`📤 ${toAdd.length} fail ditambah. Upload bermula dari MS terkecil...`);
     processQueue();
   }
 
@@ -721,10 +947,16 @@
       task.on('state_changed',
         snap=>{
           const pct=Math.round(snap.bytesTransferred/snap.totalBytes*100);
-          const fEl=document.getElementById('f'+id);const pEl=document.getElementById('p'+id);
+          const fEl=document.getElementById('f'+id),pEl=document.getElementById('p'+id);
           if(fEl)fEl.style.width=pct+'%';if(pEl)pEl.textContent=pct+'%';
         },
-        err=>{item.remove();showToast('❌ Upload gagal: '+err.message);resolve()},
+        async err=>{
+          // ── Upload error → log ke Buku Status, BUKAN stuck ────
+          item.remove();
+          await logBuku('upload_error',`Upload gagal: ${err.message}`,orig);
+          showToast(`❌ "${orig}" gagal → Buku Status`);
+          resolve();
+        },
         async()=>{
           const url=await getDownloadURL(task.snapshot.ref);
           await addDoc(collection(db,'users',currentUser.uid,'kamus',currentKamusId,'pages'),{
@@ -733,7 +965,7 @@
             status:valid?'active':'trash',originalName:orig,createdAt:Date.now()
           });
           item.remove();
-          showToast(valid?'✅ '+msName+' berjaya!':'⚠️ "'+orig+'" → Tong Sampah');
+          showToast(valid?'✅ '+msName+' berjaya!':'⚠️ "'+orig+'" → Tong Sampah (format salah)');
           resolve();
         }
       );
@@ -743,25 +975,23 @@
   // ── MISSING MS CHECKER ────────────────────────────────────────
   document.getElementById('btn-check-ms').onclick=checkMissingMS;
   document.getElementById('btn-close-missing').onclick=()=>document.getElementById('missing-modal').classList.remove('open');
-
   function checkMissingMS(){
     const active=allPages.filter(p=>p.status==='active');
-    if(active.length===0){showToast('Tiada gambar aktif untuk disemak.');return}
-    const numbers=active.map(p=>getMSNum(p.msName||'')).filter(n=>n>0);
-    if(numbers.length<2){showToast('Perlu sekurang-kurangnya 2 gambar untuk semak julat.');return}
-    const min=Math.min(...numbers),max=Math.max(...numbers);
-    const existing=new Set(numbers);
+    if(!active.length){showToast('Tiada gambar aktif untuk disemak.');return}
+    const nums=active.map(p=>getMSNum(p.msName||'')).filter(n=>n>0);
+    if(nums.length<2){showToast('Perlu sekurang-kurangnya 2 gambar untuk semak julat.');return}
+    const min=Math.min(...nums),max=Math.max(...nums);
+    const existing=new Set(nums);
     const missing=[];
     for(let i=min;i<=max;i++){if(!existing.has(i))missing.push(buildMS(i))}
     document.getElementById('missing-range').textContent=
       `Julat: ${buildMS(min)} → ${buildMS(max)}  (${max-min+1} dijangka, ${active.length} ada)`;
-    const chips=document.getElementById('missing-chips');
-    const countEl=document.getElementById('missing-count');
-    if(missing.length===0){
-      countEl.textContent='';
+    const chips=document.getElementById('missing-chips'),cEl=document.getElementById('missing-count');
+    if(!missing.length){
+      cEl.textContent='';
       chips.innerHTML=`<div class="missing-ok">✅ Tiada muka surat tertinggal!<br>Semua ${active.length} gambar lengkap dalam julat ini.</div>`;
     }else{
-      countEl.textContent=`${missing.length} muka surat tertinggal:`;
+      cEl.textContent=`${missing.length} muka surat tertinggal:`;
       chips.innerHTML=missing.map(ms=>`<span class="missing-chip">${ms}</span>`).join('');
     }
     document.getElementById('missing-modal').classList.add('open');
@@ -779,13 +1009,12 @@
   function launchViewer(){
     viewerZoom=1;viewerPanX=0;viewerPanY=0;
     document.getElementById('image-viewer').classList.add('open');
-    document.body.style.overflow='hidden';
-    loadFrame();
+    document.body.style.overflow='hidden';loadFrame();
   }
   function loadFrame(){
     if(!viewerImages.length)return;
     const img=viewerImages[viewerIdx];
-    document.getElementById('viewer-img').src=img.url;  // ← gambar diload HANYA di sini
+    document.getElementById('viewer-img').src=img.url; // gambar load HANYA di sini
     document.getElementById('viewer-ms-label').textContent=img.msName||'—';
     document.getElementById('viewer-counter').textContent=`${viewerIdx+1} / ${viewerImages.length}`;
     document.getElementById('viewer-hint-top').textContent=viewerImages.length>1?'Leret kiri/kanan untuk navigate':'';
@@ -840,8 +1069,7 @@
   document.addEventListener('keydown',e=>{
     if(!document.getElementById('image-viewer').classList.contains('open'))return;
     if(e.key==='Escape')closeViewer();
-    if(e.key==='ArrowLeft')nav(-1);
-    if(e.key==='ArrowRight')nav(1);
+    if(e.key==='ArrowLeft')nav(-1);if(e.key==='ArrowRight')nav(1);
   });
 
   if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
