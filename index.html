@@ -408,8 +408,7 @@
 
     <!-- Upload -->
     <div class="upload-zone flex-0" id="upload-zone">
-      <input type="file" id="file-input" accept="image/*" multiple />
-      <div class="upload-zone-icon">🖼️</div>
+      <input type="file" id="file-input" accept="image/*,.jpg,.jpeg,.png,.gif,.webp,.bmp,.heic,.heif,.tiff,.tif,.avif" multiple />      <div class="upload-zone-icon">🖼️</div>
       <div class="upload-zone-text">Ketuk atau seret gambar untuk upload</div>
       <div class="upload-format-hint">Format: MS001, MS042 (MS huruf besar + nombor) • Nama sama = auto-skip</div>
     </div>
@@ -494,7 +493,14 @@ function msSort(a,b){
   if(na!==nb)return na-nb;
   return getMSSuffix(a).localeCompare(getMSSuffix(b));
 } 
-  function getExt(n){const m=n.match(/\.[^/.]+$/);return m?m[0].toLowerCase():'.jpg'}
+function getExt(n){
+    const m=n.match(/\.[^/.]+$/);
+    if(!m)return'.jpg';
+    const ext=m[0].toLowerCase();
+    // HEIC/HEIF dari iPhone → simpan sebagai .heic
+    return ext==='.heif'?'.heic':ext;
+  }
+  
   function uid6(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5)}
   function timeAgo(ts){
     const s=Math.floor((Date.now()-ts)/1000);
@@ -907,7 +913,8 @@ function openEditMS(id,curMS){
 
   function handleFiles(files){
     if(!currentUser||!currentKamusId)return;
-    const imgs=files.filter(f=>f.type.startsWith('image/'));
+const IMAGE_EXT=/\.(jpg|jpeg|png|gif|webp|bmp|heic|heif|tiff|tif|avif|svg)$/i;
+    const imgs=files.filter(f=>f.type.startsWith('image/')||IMAGE_EXT.test(f.name)||f.size>0&&f.type==='');
     if(!imgs.length){showToast('⚠️ Pilih fail gambar.');return}
 
     // ── Duplicate detection: skip nama yang SUDAH ADA ──────────
@@ -959,7 +966,9 @@ function openEditMS(id,curMS){
         <div class="upload-bar-wrap"><div class="upload-bar-fill" id="f${id}" style="width:0%"></div></div>
         <div class="upload-pct" id="p${id}">0%</div>`;
       pList.appendChild(item);
-      const task=uploadBytesResumable(sRef(storage,path),file);
+const mimeType=file.type||'image/jpeg';
+    const task=uploadBytesResumable(sRef(storage,path),file,{contentType:mimeType});
+      
       task.on('state_changed',
         snap=>{
           const pct=Math.round(snap.bytesTransferred/snap.totalBytes*100);
