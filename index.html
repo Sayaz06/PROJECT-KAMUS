@@ -5,9 +5,7 @@
   <title>Project Kamus</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#020617" />
-<link rel="manifest" href="manifest.webmanifest" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  
+  <link rel="manifest" href="manifest.webmanifest" />
   <style>
     :root{
       --bg:#020617;--surface:rgba(15,23,42,.92);--surface2:rgba(22,33,62,.88);
@@ -383,10 +381,8 @@
         <div class="topbar-sub">Gambar Muka Surat</div>
       </div>
       <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
-<button class="btn btn-purple btn-sm" id="btn-check-ms">🔍 Semak MS</button>
+        <button class="btn btn-purple btn-sm" id="btn-check-ms">🔍 Semak MS</button>
         <button class="btn btn-success btn-sm" id="btn-view-done">✅ Done</button>
-        <button class="btn btn-gold btn-sm" id="btn-export">⬇️ Export</button>
-        
       </div>
     </div>
 
@@ -425,15 +421,8 @@
 
     </div>
     <div class="queue-status" id="queue-status"></div>
-<div id="upload-progress-list" class="flex-0"></div>
-  <div id="export-progress-wrap" style="display:none;background:var(--surface2);border:1px solid var(--border-mid);border-radius:8px;padding:10px 14px;margin-bottom:8px;flex-shrink:0">
-    <div style="font-size:.78rem;font-weight:700;color:var(--accent2);margin-bottom:6px" id="export-status-text">⏳ Menyediakan export...</div>
-    <div style="width:100%;height:6px;background:var(--border);border-radius:4px;overflow:hidden">
-      <div id="export-bar-fill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .2s ease"></div>
-    </div>
-    <div style="font-size:.68rem;color:var(--subtext);margin-top:4px" id="export-pct-text">0%</div>
-  </div>
-    
+    <div id="upload-progress-list" class="flex-0"></div>
+
     <!-- Search -->
     <div class="search-wrap flex-0">
       <span class="search-icon">🔍</span>
@@ -1117,78 +1106,7 @@ const mimeType=file.type||'image/jpeg';
     if(e.key==='ArrowLeft')nav(-1);if(e.key==='ArrowRight')nav(1);
   });
 
-// ── EXPORT ────────────────────────────────────────────────────
-  document.getElementById('btn-export').onclick=exportImages;
-  const BATCH=8; // fetch 8 serentak, selamat untuk memory
-  async function exportImages(){
-    const active=allPages.filter(p=>p.status==='active').sort((a,b)=>msSort(a.msName||'',b.msName||''));
-    if(!active.length){showToast('⚠️ Tiada gambar untuk diexport.');return}
-    const wrap=document.getElementById('export-progress-wrap');
-    const bar=document.getElementById('export-bar-fill');
-    const statusTxt=document.getElementById('export-status-text');
-    const pctTxt=document.getElementById('export-pct-text');
-    wrap.style.display='block';
-    document.getElementById('btn-export').disabled=true;
-
-    const zip=new JSZip();
-    let done=0,failed=0;
-    const total=active.length;
-
-    // Proses dalam batch — elak overload memory
-    for(let i=0;i<total;i+=BATCH){
-      const batch=active.slice(i,i+BATCH);
-      statusTxt.textContent=`⏳ Batch ${Math.floor(i/BATCH)+1}/${Math.ceil(total/BATCH)} — ${done}/${total} gambar...`;
-
-      // Fetch batch serentak
-      await Promise.all(batch.map(async p=>{
-        try{
-          const res=await fetch(p.storageUrl);
-          if(!res.ok)throw new Error('HTTP '+res.status);
-          const blob=await res.blob();
-          const ext=p.storagePath?('.'+p.storagePath.split('.').pop()):'.jpg';
-          zip.file((p.msName||'gambar')+ext,blob);
-        }catch(_){
-          failed++;
-          // Skip gambar gagal, teruskan
-        }
-        done++;
-        const pct=Math.round(done/total*50); // 0-50% untuk fetch fasa
-        bar.style.width=pct+'%';
-        pctTxt.textContent=pct+'%';
-      }));
-
-      // Lepas tiap batch, bagi browser bernafas sebentar
-      await new Promise(r=>setTimeout(r,80));
-    }
-
-    // Fasa ZIP — 50-100%
-    statusTxt.textContent=`📦 Mengemas ${done-failed} gambar dalam ZIP...`;
-    const zipBlob=await zip.generateAsync(
-      {type:'blob',compression:'DEFLATE',compressionOptions:{level:1}}, // level 1 = laju, saiz ok
-      meta=>{
-        const pct=50+Math.round(meta.percent/2); // 50-100%
-        bar.style.width=pct+'%';
-        pctTxt.textContent=pct+'%';
-        statusTxt.textContent=`📦 Mengemas ZIP... ${pct}%`;
-      }
-    );
-
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(zipBlob);
-    a.download=(currentKamusNm||'kamus')+'_export.zip';
-    a.click();
-    URL.revokeObjectURL(a.href);
-
-    bar.style.width='100%';
-    pctTxt.textContent='100%';
-    statusTxt.textContent=failed>0?`✅ Selesai! ${done-failed} berjaya, ${failed} gagal.`:`✅ ${done} gambar berjaya diexport!`;
-    document.getElementById('btn-export').disabled=false;
-    setTimeout(()=>{wrap.style.display='none';bar.style.width='0%';pctTxt.textContent='0%'},4000);
-    showToast(failed>0?`✅ Export selesai! ${failed} gambar gagal.`:`✅ ${done} gambar diexport!`);
-  }
-
   if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
-  
 </script>
 </body>
 </html>
