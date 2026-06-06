@@ -1147,7 +1147,8 @@
     showToast(`⏳ Reexport ${p.msName}...`,0);
     try{
       const zip=new JSZip();
-      const res=await fetch(p.storageUrl);
+const freshUrl=await getDownloadURL(sRef(storage,p.storagePath));
+      const res=await fetch(freshUrl);
       if(!res.ok)throw new Error('HTTP '+res.status);
       const blob=await res.blob();
       const ext=p.storagePath?('.'+p.storagePath.split('.').pop()):'.jpg';
@@ -1187,11 +1188,13 @@
       statusTxt.textContent=`🔄 Reexport ${done}/${total}...`;
       await Promise.all(batch.map(async p=>{
         try{
-          const res=await fetch(p.storageUrl);
+const freshUrl=await getDownloadURL(sRef(storage,p.storagePath));
+          const res=await fetch(freshUrl);
           if(!res.ok)throw new Error('HTTP '+res.status);
           const blob=await res.blob();
           const ext=p.storagePath?('.'+p.storagePath.split('.').pop()):'.jpg';
           zip.file((p.msName||'gambar')+ext,blob);
+          
         }catch(_){stillFailed.push(p)}
         done++;
         bar.style.width=Math.round(done/total*50)+'%';
@@ -1245,7 +1248,8 @@
       statusTxt.textContent=`⏳ Batch ${Math.floor(i/BATCH)+1}/${Math.ceil(total/BATCH)} — ${done}/${total} gambar...`;
       await Promise.all(batch.map(async p=>{
         try{
-          const res=await fetch(p.storageUrl);
+const freshUrl=await getDownloadURL(sRef(storage,p.storagePath));
+          const res=await fetch(freshUrl);
           if(!res.ok)throw new Error('HTTP '+res.status);
           const blob=await res.blob();
           const ext=p.storagePath?('.'+p.storagePath.split('.').pop()):'.jpg';
