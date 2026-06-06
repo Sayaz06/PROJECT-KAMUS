@@ -1061,21 +1061,26 @@
   document.getElementById('viewer-next').onclick=()=>nav(1);
 
   // ── DOWNLOAD BUTTON ───────────────────────────────────────────
-  document.getElementById('viewer-download').onclick=async()=>{
+document.getElementById('viewer-download').onclick=async()=>{
     const img=viewerImages[viewerIdx];
     if(!img?.url)return;
     try{
       showToast('⏳ Menyediakan gambar...',0);
-      const res=await fetch(img.url);
+      const res=await fetch(img.url,{mode:'cors',cache:'no-cache'});
+      if(!res.ok)throw new Error('fetch failed');
       const blob=await res.blob();
+      if(!blob||blob.size===0)throw new Error('empty blob');
       const a=document.createElement('a');
       a.href=URL.createObjectURL(blob);
       a.download=(img.msName||'gambar')+'.jpg';
+      document.body.appendChild(a);
       a.click();
-      URL.revokeObjectURL(a.href);
+      setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
       showToast('✅ Gambar berjaya disimpan!');
     }catch(e){
-      showToast('❌ Gagal simpan gambar.');
+      // Fallback: buka dalam tab baru, user boleh long-press save
+      showToast('💡 Tekan lama gambar → Simpan',4000);
+      window.open(img.url,'_blank');
     }
   };
 
