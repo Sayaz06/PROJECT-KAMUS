@@ -1119,6 +1119,7 @@ const mimeType=file.type||'image/jpeg';
 
 // ── EXPORT ────────────────────────────────────────────────────
   document.getElementById('btn-export').onclick=exportImages;
+  const BATCH=8; // fetch 8 serentak, selamat untuk memory
   async function exportImages(){
     const active=allPages.filter(p=>p.status==='active').sort((a,b)=>msSort(a.msName||'',b.msName||''));
     if(!active.length){showToast('⚠️ Tiada gambar untuk diexport.');return}
@@ -1128,40 +1129,62 @@ const mimeType=file.type||'image/jpeg';
     const pctTxt=document.getElementById('export-pct-text');
     wrap.style.display='block';
     document.getElementById('btn-export').disabled=true;
+
     const zip=new JSZip();
-    let done=0;
-    for(const p of active){
-      statusTxt.textContent=`⏳ Memuat turun ${p.msName||''}... (${done+1}/${active.length})`;
-      try{
-        const res=await fetch(p.storageUrl);
-        const blob=await res.blob();
-        const ext=p.storagePath?('.'+p.storagePath.split('.').pop()):'.jpg';
-        zip.file((p.msName||'gambar')+ext,blob);
-      }catch(_){
-        statusTxt.textContent=`⚠️ Gagal: ${p.msName||''}, teruskan...`;
-      }
-      done++;
-      const pct=Math.round(done/active.length*100);
-      bar.style.width=pct+'%';
-      pctTxt.textContent=pct+'%';
+    let done=0,failed=0;
+    const total=active.length;
+
+    // Proses dalam batch — elak overload memory
+    for(let i=0;i<total;i+=BATCH){
+      const batch=active.slice(i,i+BATCH);
+      statusTxt.textContent=`⏳ Batch ${Math.floor(i/BATCH)+1}/${Math.ceil(total/BATCH)} — ${done}/${total} gambar...`;
+
+      // Fetch batch serentak
+      await Promise.all(batch.map(async p=>{
+        try{
+          const res=await fetch(p.storageUrl);
+          if(!res.ok)throw new Error('HTTP '+res.status);
+          const blob=await res.blob();
+          const ext=p.storagePath?('.'+p.storagePath.split('.').pop()):'.jpg';
+          zip.file((p.msName||'gambar')+ext,blob);
+        }catch(_){
+          failed++;
+          // Skip gambar gagal, teruskan
+        }
+        done++;
+        const pct=Math.round(done/total*50); // 0-50% untuk fetch fasa
+        bar.style.width=pct+'%';
+        pctTxt.textContent=pct+'%';
+      }));
+
+      // Lepas tiap batch, bagi browser bernafas sebentar
+      await new Promise(r=>setTimeout(r,80));
     }
-    statusTxt.textContent='📦 Mengemas fail ZIP...';
-    const zipBlob=await zip.generateAsync({type:'blob'},meta=>{
-      bar.style.width=meta.percent.toFixed(0)+'%';
-      pctTxt.textContent=meta.percent.toFixed(0)+'%';
-      statusTxt.textContent=`📦 Mengemas ZIP... ${meta.percent.toFixed(0)}%`;
-    });
+
+    // Fasa ZIP — 50-100%
+    statusTxt.textContent=`📦 Mengemas ${done-failed} gambar dalam ZIP...`;
+    const zipBlob=await zip.generateAsync(
+      {type:'blob',compression:'DEFLATE',compressionOptions:{level:1}}, // level 1 = laju, saiz ok
+      meta=>{
+        const pct=50+Math.round(meta.percent/2); // 50-100%
+        bar.style.width=pct+'%';
+        pctTxt.textContent=pct+'%';
+        statusTxt.textContent=`📦 Mengemas ZIP... ${pct}%`;
+      }
+    );
+
     const a=document.createElement('a');
     a.href=URL.createObjectURL(zipBlob);
     a.download=(currentKamusNm||'kamus')+'_export.zip';
     a.click();
     URL.revokeObjectURL(a.href);
-    statusTxt.textContent='✅ Export selesai!';
+
     bar.style.width='100%';
     pctTxt.textContent='100%';
+    statusTxt.textContent=failed>0?`✅ Selesai! ${done-failed} berjaya, ${failed} gagal.`:`✅ ${done} gambar berjaya diexport!`;
     document.getElementById('btn-export').disabled=false;
-    setTimeout(()=>{wrap.style.display='none';bar.style.width='0%';pctTxt.textContent='0%'},3000);
-    showToast(`✅ ${active.length} gambar berjaya diexport!`);
+    setTimeout(()=>{wrap.style.display='none';bar.style.width='0%';pctTxt.textContent='0%'},4000);
+    showToast(failed>0?`✅ Export selesai! ${failed} gambar gagal.`:`✅ ${done} gambar diexport!`);
   }
 
   if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
