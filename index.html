@@ -426,7 +426,17 @@
     </div>
     <div class="queue-status" id="queue-status"></div>
 <div id="upload-progress-list" class="flex-0"></div>
-  <div id="export-progress-wrap" style="display:none;background:var(--surface2);border:1px solid var(--border-mid);border-radius:8px;padding:10px 14px;margin-bottom:8px;flex-shrink:0">
+  <div id="export-fail-section" style="display:none;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.22);border-radius:8px;padding:10px 14px;margin-bottom:8px;flex-shrink:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+      <span style="font-size:.78rem;font-weight:700;color:#fca5a5">❌ Gambar Gagal Export (<span id="export-fail-count">0</span>)</span>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-warning btn-xs" id="btn-reexport-all">🔄 Reexport Semua</button>
+        <button class="btn btn-sec btn-xs" id="btn-clear-fail">✕ Kosongkan</button>
+      </div>
+    </div>
+    <div id="export-fail-list"></div>
+  </div>
+  <div id="export-progress-wrap" style="display:none;background:var(--surface2);border:1px solid var(--border-mid);border-radius:8px;padding:10px 14px;margin-bottom:8px;flex-shrink:0">    
     <div style="font-size:.78rem;font-weight:700;color:var(--accent2);margin-bottom:6px" id="export-status-text">⏳ Menyediakan export...</div>
     <div style="width:100%;height:6px;background:var(--border);border-radius:4px;overflow:hidden">
       <div id="export-bar-fill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .2s ease"></div>
@@ -1119,7 +1129,181 @@ const mimeType=file.type||'image/jpeg';
 
 // ── EXPORT ────────────────────────────────────────────────────
   document.getElementById('btn-export').onclick=exportImages;
-  const BATCH=8; // fetch 8 serentak, selamat untuk memory
+  let exportFailed=[]; // simpan gambar yang gagal
+  const BATCH=8;
+
+  function renderExportFail(){
+    const sec=document.getElementById('export-fail-section');
+    document.getElementById('export-fail-count').textContent=exportFailed.length;
+    sec.style.display=exportFailed.length?'block':'none';
+    const list=document.getElementById('export-fail-list');
+    list.innerHTML='';
+    exportFailed.forEach((p,i)=>{
+      const div=document.createElement('div');
+      div.style.cssText='display:flex;align-items:center;gap:8px;padding:6px 8px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);border-radius:7px;margin-bottom:5px;flex-wrap:wrap';
+      div.innerHTML=`
+        <span style="font-size:.8rem;font-weight:700;color:#fca5a5;flex:1;min-width:80px">${esc(p.msName||'?')}</span>
+        <span style="font-size:.68rem;color:var(--subtext);flex:1;min-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.originalName||'')}</span>
+        <button class="btn btn-warning btn-xs" data-idx="${i}">🔄 Reexport</button>
+        <button class="btn btn-danger btn-xs" data-del="${i}">✕</button>
+      `;
+      div.querySelector('[data-idx]').onclick=()=>reexportSingle(i);
+      div.querySelector('[data-del]').onclick=()=>{exportFailed.splice(i,1);renderExportFail()};
+      list.appendChild(div);
+    });
+  }
+
+  document.getElementById('btn-clear-fail').onclick=()=>{exportFailed=[];renderExportFail()};
+  document.getElementById('btn-reexport-all').onclick=()=>reexportAll();
+
+  async function reexportSingle(idx){
+    const p=exportFailed[idx];
+    if(!p)return;
+    showToast(`⏳ Reexport ${p.msName}...`,0);
+    try{
+      const zip=new JSZip();
+      const res=await fetch(p.storageUrl);
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      const blob=await res.blob();
+      const ext=p.storagePath?('.'+p.storagePath.split('.').pop()):'.jpg';
+      zip.file((p.msName||'gambar')+ext,blob);
+      const zipBlob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:1}});
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(zipBlob);
+      a.download=(p.msName||'gambar')+'_reexport.zip';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      exportFailed.splice(idx,1);
+      renderExportFail();
+      showToast(`✅ ${p.msName} berjaya diexport!`);
+    }catch(_){
+      showToast(`❌ ${p.msName} masih gagal. Cuba semula.`);
+    }
+  }
+
+  async function reexportAll(){
+    if(!exportFailed.length)return;
+    const wrap=document.getElementById('export-progress-wrap');
+    const bar=document.getElementById('export-bar-fill');
+    const statusTxt=document.getElementById('export-status-text');
+    const pctTxt=document.getElementById('export-pct-text');
+    wrap.style.display='block';
+    document.getElementById('btn-reexport-all').disabled=true;
+    document.getElementById('btn-export').disabled=true;
+
+    const zip=new JSZip();
+    const toRetry=[...exportFailed];
+    const stillFailed=[];
+    let done=0;
+    const total=toRetry.length;
+
+    for(let i=0;i<total;i+=BATCH){
+      const batch=toRetry.slice(i,i+BATCH);
+      statusTxt.textContent=`🔄 Reexport ${done}/${total}...`;
+      await Promise.all(batch.map(async p=>{
+        try{
+          const res=await fetch(p.storageUrl);
+          if(!res.ok)throw new Error('HTTP '+res.status);
+          const blob=await res.blob();
+          const ext=p.storagePath?('.'+p.storagePath.split('.').pop()):'.jpg';
+          zip.file((p.msName||'gambar')+ext,blob);
+        }catch(_){
+          stillFailed.push(p);
+        }
+        done++;
+        bar.style.width=Math.round(done/total*50)+'%';
+        pctTxt.textContent=Math.round(done/total*50)+'%';
+      }));
+      await new Promise(r=>setTimeout(r,80));
+    }
+
+    statusTxt.textContent='📦 Mengemas ZIP...';
+    const zipBlob=await zip.generateAsync(
+      {type:'blob',compression:'DEFLATE',compressionOptions:{level:1}},
+      meta=>{
+        const pct=50+Math.round(meta.percent/2);
+        bar.style.width=pct+'%';
+        pctTxt.textContent=pct+'%';
+      }
+    );
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(zipBlob);
+    a.download=(currentKamusNm||'kamus')+'_reexport.zip';
+    a.click();
+    URL.revokeObjectURL(a.href);
+
+    exportFailed=stillFailed;
+    renderExportFail();
+    bar.style.width='100%';pctTxt.textContent='100%';
+    statusTxt.textContent=stillFailed.length?`✅ Selesai! ${stillFailed.length} masih gagal.`:`✅ Semua berjaya diexport!`;
+    document.getElementById('btn-reexport-all').disabled=false;
+    document.getElementById('btn-export').disabled=false;
+    setTimeout(()=>{wrap.style.display='none';bar.style.width='0%';pctTxt.textContent='0%'},4000);
+    showToast(stillFailed.length?`⚠️ ${stillFailed.length} masih gagal.`:`✅ Semua reexport berjaya!`);
+  }
+
+  async function exportImages(){
+    const active=allPages.filter(p=>p.status==='active').sort((a,b)=>msSort(a.msName||'',b.msName||''));
+    if(!active.length){showToast('⚠️ Tiada gambar untuk diexport.');return}
+    const wrap=document.getElementById('export-progress-wrap');
+    const bar=document.getElementById('export-bar-fill');
+    const statusTxt=document.getElementById('export-status-text');
+    const pctTxt=document.getElementById('export-pct-text');
+    wrap.style.display='block';
+    document.getElementById('btn-export').disabled=true;
+
+    const zip=new JSZip();
+    let done=0,failed=0;
+    const total=active.length;
+    exportFailed=[];
+
+    for(let i=0;i<total;i+=BATCH){
+      const batch=active.slice(i,i+BATCH);
+      statusTxt.textContent=`⏳ Batch ${Math.floor(i/BATCH)+1}/${Math.ceil(total/BATCH)} — ${done}/${total} gambar...`;
+      await Promise.all(batch.map(async p=>{
+        try{
+          const res=await fetch(p.storageUrl);
+          if(!res.ok)throw new Error('HTTP '+res.status);
+          const blob=await res.blob();
+          const ext=p.storagePath?('.'+p.storagePath.split('.').pop()):'.jpg';
+          zip.file((p.msName||'gambar')+ext,blob);
+        }catch(_){
+          failed++;
+          exportFailed.push(p); // simpan dalam history
+        }
+        done++;
+        const pct=Math.round(done/total*50);
+        bar.style.width=pct+'%';
+        pctTxt.textContent=pct+'%';
+      }));
+      await new Promise(r=>setTimeout(r,80));
+    }
+
+    statusTxt.textContent=`📦 Mengemas ${done-failed} gambar dalam ZIP...`;
+    const zipBlob=await zip.generateAsync(
+      {type:'blob',compression:'DEFLATE',compressionOptions:{level:1}},
+      meta=>{
+        const pct=50+Math.round(meta.percent/2);
+        bar.style.width=pct+'%';
+        pctTxt.textContent=pct+'%';
+        statusTxt.textContent=`📦 Mengemas ZIP... ${pct}%`;
+      }
+    );
+
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(zipBlob);
+    a.download=(currentKamusNm||'kamus')+'_export.zip';
+    a.click();
+    URL.revokeObjectURL(a.href);
+
+    bar.style.width='100%';pctTxt.textContent='100%';
+    statusTxt.textContent=failed>0?`✅ Selesai! ${done-failed} berjaya, ${failed} gagal.`:`✅ ${done} gambar berjaya diexport!`;
+    document.getElementById('btn-export').disabled=false;
+    renderExportFail(); // tunjuk history gagal
+    setTimeout(()=>{wrap.style.display='none';bar.style.width='0%';pctTxt.textContent='0%'},4000);
+    showToast(failed>0?`⚠️ ${failed} gambar gagal — semak history.`:`✅ ${done} gambar diexport!`);
+  }
+
   async function exportImages(){
     const active=allPages.filter(p=>p.status==='active').sort((a,b)=>msSort(a.msName||'',b.msName||''));
     if(!active.length){showToast('⚠️ Tiada gambar untuk diexport.');return}
