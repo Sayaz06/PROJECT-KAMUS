@@ -443,10 +443,11 @@
         <div class="topbar-sub" id="done-title">—</div>
       </div>
     </div>
-    <div class="row-b flex-0" style="margin-bottom:10px">
+<div class="row-b flex-0" style="margin-bottom:10px">
       <span class="done-count-chip">Siap: <strong id="done-count">0</strong> gambar</span>
-      <span class="chip">"Undone" untuk kembalikan</span>
+      <button class="btn btn-warning btn-sm" id="btn-undone-all">↩️ Undone Semua</button>
     </div>
+    
     <div class="list-scroll" id="done-list"></div>
   </section>
 
@@ -732,8 +733,19 @@
     currentKamusId=null;goTo('section-home');
   };
   document.getElementById('btn-view-done').onclick=()=>{renderDone();goTo('section-done')};
-  document.getElementById('btn-back-pages').onclick=()=>goTo('section-pages');
+document.getElementById('btn-back-pages').onclick=()=>goTo('section-pages');
+  document.getElementById('btn-undone-all').onclick=async()=>{
+    const done=allPages.filter(p=>p.status==='done');
+    if(!done.length){showToast('Tiada gambar untuk di-undone.');return}
+    if(!confirm(`Undone semua ${done.length} gambar?\nSemua akan dikembalikan ke senarai gambar.`))return;
+    showToast('⏳ Memproses...',0);
+    for(const p of done){
+      await updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',p.id),{status:'active'});
+    }
+    showToast(`✅ ${done.length} gambar berjaya di-undone!`);
+  };
 
+  
   // ── PAGES SUBSCRIPTION ───────────────────────────────────────
   function subscribePages(){
     if(!currentUser||!currentKamusId)return;
