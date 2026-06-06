@@ -408,9 +408,17 @@
 
     <!-- Upload -->
     <div class="upload-zone flex-0" id="upload-zone">
-      <input type="file" id="file-input" accept="image/*,.jpg,.jpeg,.png,.gif,.webp,.bmp,.heic,.heif,.tiff,.tif,.avif" multiple />      <div class="upload-zone-icon">🖼️</div>
+<input type="file" id="file-input" accept="image/*,.jpg,.jpeg,.png,.gif,.webp,.bmp,.heic,.heif,.tiff,.tif,.avif" multiple />
+<input type="file" id="file-input-files" accept="*/*" multiple style="display:none" />
+
+<div class="upload-zone-icon">🖼️</div>
       <div class="upload-zone-text">Ketuk atau seret gambar untuk upload</div>
-      <div class="upload-format-hint">Format: MS001, MS042 (MS huruf besar + nombor) • Nama sama = auto-skip</div>
+      <div class="upload-format-hint">Format: MS001, MS001a, MS042b (MS besar + nombor + a/b pilihan) • Nama sama = auto-skip</div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;pointer-events:auto;position:relative;z-index:2">
+        <label for="file-input" style="padding:7px 16px;background:rgba(59,130,246,.18);border:1px solid rgba(59,130,246,.4);border-radius:999px;font-size:.78rem;font-weight:700;color:var(--accent2);cursor:pointer">📷 Galeri</label>
+        <label for="file-input-files" style="padding:7px 16px;background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.4);border-radius:999px;font-size:.78rem;font-weight:700;color:#c4b5fd;cursor:pointer">📁 Fail</label>
+      </div>
+
     </div>
     <div class="queue-status" id="queue-status"></div>
     <div id="upload-progress-list" class="flex-0"></div>
@@ -910,7 +918,8 @@ function openEditMS(id,curMS){
   uploadZone.addEventListener('dragleave',()=>uploadZone.classList.remove('drag-over'));
   uploadZone.addEventListener('drop',e=>{e.preventDefault();uploadZone.classList.remove('drag-over');handleFiles([...e.dataTransfer.files])});
   fileInput.addEventListener('change',e=>{handleFiles([...e.target.files]);fileInput.value=''});
-
+  document.getElementById('file-input-files').addEventListener('change',e=>{handleFiles([...e.target.files]);e.target.value=''});
+  
   function handleFiles(files){
     if(!currentUser||!currentKamusId)return;
 const IMAGE_EXT=/\.(jpg|jpeg|png|gif|webp|bmp|heic|heif|tiff|tif|avif|svg)$/i;
