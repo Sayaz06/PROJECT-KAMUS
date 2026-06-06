@@ -285,6 +285,7 @@
       <div class="viewer-ms" id="viewer-ms-label"></div>
       <div class="viewer-hint-top" id="viewer-hint-top"></div>
     </div>
+<button id="viewer-download" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:white;font-size:1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;">⬇️</button>
     <button class="viewer-close" id="viewer-close">✕</button>
   </div>
   <div class="viewer-canvas" id="viewer-canvas">
@@ -1065,7 +1066,25 @@ const mimeType=file.type||'image/jpeg';
   }
   function nav(dir){const n=viewerIdx+dir;if(n<0||n>=viewerImages.length)return;viewerIdx=n;loadFrame()}
   function closeViewer(){document.getElementById('image-viewer').classList.remove('open');document.getElementById('viewer-img').src='';document.body.style.overflow=''}
-  document.getElementById('viewer-close').onclick=closeViewer;
+document.getElementById('viewer-close').onclick=closeViewer;
+  document.getElementById('viewer-download').onclick=async()=>{
+    const img=viewerImages[viewerIdx];
+    if(!img?.url)return;
+    try{
+      showToast('⏳ Menyediakan gambar...',0);
+      const res=await fetch(img.url);
+      const blob=await res.blob();
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=(img.msName||'gambar')+'.jpg';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      showToast('✅ Gambar berjaya disimpan!');
+    }catch(e){
+      showToast('❌ Gagal simpan gambar.');
+    }
+  };
+  
   document.getElementById('viewer-prev').onclick=()=>nav(-1);
   document.getElementById('viewer-next').onclick=()=>nav(1);
 
