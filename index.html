@@ -303,10 +303,16 @@
   <div class="modal-card">
     <div class="modal-title">✏️ Sunting Muka Surat</div>
     <div class="modal-hint">Masukkan nombor sahaja. Contoh: 1, 42, 125</div>
-    <div class="ms-row">
+<div class="ms-row">
       <span class="ms-prefix">MS</span>
       <input type="number" id="ms-number-input" min="1" max="9999" placeholder="001" />
+      <select id="ms-suffix-input" style="background:var(--surface2);border:1px solid var(--border-mid);border-radius:8px;color:var(--text);font-size:1.1rem;font-weight:700;padding:8px 10px;outline:none;">
+        <option value="">—</option>
+        <option value="a">a</option>
+        <option value="b">b</option>
+      </select>
     </div>
+    
     <div class="modal-btns">
       <button class="btn btn-success btn-sm" id="btn-save-ms">✓ Simpan</button>
       <button class="btn btn-sec btn-sm" id="btn-cancel-ms">Batal</button>
@@ -478,10 +484,16 @@
   }
   function goTo(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-  const MS_RE=/^MS\d+$/;
-  function isValidMS(n){return MS_RE.test(n.replace(/\.[^/.]+$/,''))}
-  function getMSNum(n){const m=String(n).match(/^MS(\d+)$/);return m?parseInt(m[1],10):0}
-  function buildMS(n){return'MS'+String(n).padStart(3,'0')}
+const MS_RE=/^MS\d+[ab]?$/i;
+function isValidMS(n){return MS_RE.test(n.replace(/\.[^/.]+$/,''))}
+function getMSNum(n){const m=String(n).toUpperCase().match(/^MS(\d+)([AB]?)$/);return m?parseInt(m[1],10):0}
+function getMSSuffix(n){const m=String(n).toUpperCase().match(/^MS\d+([AB]?)$/);return m?m[1].toLowerCase():''}
+function buildMS(n,suffix=''){return'MS'+String(n).padStart(3,'0')+(suffix?suffix.toLowerCase():'')}
+function msSort(a,b){
+  const na=getMSNum(a),nb=getMSNum(b);
+  if(na!==nb)return na-nb;
+  return getMSSuffix(a).localeCompare(getMSSuffix(b));
+} 
   function getExt(n){const m=n.match(/\.[^/.]+$/);return m?m[0].toLowerCase():'.jpg'}
   function uid6(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5)}
   function timeAgo(ts){
@@ -725,7 +737,7 @@
   // ── RENDER ACTIVE (no img thumbnail) ─────────────────────────
   function renderActive(){
     const q=document.getElementById('pages-search').value.toLowerCase();
-    const active=allPages.filter(p=>p.status==='active').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
+    const active=allPages.filter(p=>p.status==='active').sort((a,b)=>msSort(a.msName||'',b.msName||''))
     viewerImages=active.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
     const filtered=active.filter(p=>(p.msName||'').toLowerCase().includes(q));
     const list=document.getElementById('pages-list');
@@ -787,14 +799,15 @@
       const inp=div.querySelector('.trash-name-input');
       const[bRe,bDel]=div.querySelectorAll('button');
       div.querySelector('.trash-thumb').onclick=()=>{viewerImages=[{msName:p.originalName,url:p.storageUrl,id:p.id}];viewerIdx=0;launchViewer()};
-      bRe.onclick=()=>{
+bRe.onclick=()=>{
         const raw=inp.value.trim().replace(/\.[^/.]+$/,'');
-        if(!isValidMS(raw)){showToast('⚠️ Format masih salah. Contoh: MS001');return}
+        if(!isValidMS(raw)){showToast('⚠️ Format masih salah. Contoh: MS001, MS001a');return}
         const msName=raw.toUpperCase();
         updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',p.id),
-          {status:'active',msName,msNumber:getMSNum(msName),originalName:raw});
+          {status:'active',msName,msNumber:getMSNum(msName),msSuffix:getMSSuffix(msName),originalName:raw});
         showToast('✅ '+msName+' dikembalikan!');
       };
+      
       bDel.onclick=()=>deletePage(p.id,p.storagePath);
       tList.appendChild(div);
     });
@@ -807,7 +820,7 @@
 
   // ── RENDER DONE ───────────────────────────────────────────────
   function renderDone(){
-    const done=allPages.filter(p=>p.status==='done').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
+    const done=allPages.filter(p=>p.status==='done').sort((a,b)=>msSort(a.msName||'',b.msName||''))
     const dVim=done.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
     document.getElementById('done-count').textContent=done.length;
     const list=document.getElementById('done-list');
@@ -849,18 +862,21 @@
   }
 
   // ── EDIT MS ───────────────────────────────────────────────────
-  function openEditMS(id,curMS){
+function openEditMS(id,curMS){
     editingPageId=id;
     document.getElementById('ms-number-input').value=curMS?String(getMSNum(curMS)):'';
+    document.getElementById('ms-suffix-input').value=curMS?getMSSuffix(curMS):'';
     document.getElementById('edit-ms-modal').classList.add('open');
     setTimeout(()=>document.getElementById('ms-number-input').select(),80);
   }
+  
   document.getElementById('btn-cancel-ms').onclick=()=>{document.getElementById('edit-ms-modal').classList.remove('open');editingPageId=null};
   document.getElementById('btn-save-ms').onclick=async()=>{
     const val=parseInt(document.getElementById('ms-number-input').value);
     if(!val||val<1){showToast('⚠️ Masukkan nombor yang sah.');return}
-    const msName=buildMS(val);
-    await updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',editingPageId),{msName,msNumber:val});
+    const suffix=document.getElementById('ms-suffix-input').value;
+    const msName=buildMS(val,suffix);
+    await updateDoc(doc(db,'users',currentUser.uid,'kamus',currentKamusId,'pages',editingPageId),{msName,msNumber:val,msSuffix:suffix});
     document.getElementById('edit-ms-modal').classList.remove('open');editingPageId=null;
     showToast('✅ Dikemaskini: '+msName);
   };
@@ -1000,7 +1016,7 @@
   // ── IMAGE VIEWER ──────────────────────────────────────────────
   function openViewer(pageId,src){
     if(src==='active'){
-      const active=allPages.filter(p=>p.status==='active').sort((a,b)=>getMSNum(a.msName||'')-getMSNum(b.msName||''));
+      const active=allPages.filter(p=>p.status==='active').sort((a,b)=>msSort(a.msName||'',b.msName||''))
       viewerImages=active.map(p=>({msName:p.msName,url:p.storageUrl,id:p.id}));
       viewerIdx=Math.max(0,viewerImages.findIndex(x=>x.id===pageId));
     }
