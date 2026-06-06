@@ -3,7 +3,7 @@
 // Strategy: Cache-first for static assets, Network-first for API
 // ============================================================
 
-const CACHE_NAME    = 'kamus-v1';
+const CACHE_NAME    = 'kamus-v2';
 const OFFLINE_URL   = './index.html';
 
 // Files to pre-cache on install
