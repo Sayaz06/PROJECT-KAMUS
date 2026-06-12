@@ -1015,12 +1015,20 @@ document.getElementById('btn-back-pages').onclick=()=>goTo('section-pages');
   function checkMissingMS(){
     const active=allPages.filter(p=>p.status==='active');
     if(!active.length){showToast('Tiada gambar aktif untuk disemak.');return}
-    const nums=active.map(p=>getMSNum(p.msName||'')).filter(n=>n>0);
+const msKeys=active.map(p=>(p.msName||'').toUpperCase()).filter(s=>s.startsWith('MS'));
+    const nums=msKeys.map(s=>getMSNum(s)).filter(n=>n>0);
     if(nums.length<2){showToast('Perlu sekurang-kurangnya 2 gambar untuk semak julat.');return}
     const min=Math.min(...nums),max=Math.max(...nums);
-    const existing=new Set(nums);
+    const existing=new Set(msKeys);
     const missing=[];
-    for(let i=min;i<=max;i++){if(!existing.has(i))missing.push(buildMS(i))}
+    for(let i=min;i<=max;i++){
+      const base=buildMS(i);
+      const hasA=existing.has(base+'A');
+      const hasB=existing.has(base+'B');
+      if(hasA&&hasB){/* lengkap */}
+      else if(hasA||hasB){if(!hasA)missing.push(base+'A');if(!hasB)missing.push(base+'B');}
+      else{missing.push(base);}
+    }
     document.getElementById('missing-range').textContent=
       `Julat: ${buildMS(min)} → ${buildMS(max)}  (${max-min+1} dijangka, ${active.length} ada)`;
     const chips=document.getElementById('missing-chips'),cEl=document.getElementById('missing-count');
