@@ -346,9 +346,14 @@
       <div class="login-logo">📖</div>
       <div class="login-title">Project Kamus</div>
       <div class="login-sub">Simpan &amp; susun gambar kamus mengikut muka surat</div>
-      <button class="google-btn" id="btn-login"><span>🔵</span> Log Masuk dengan Google</button>
+<button class="google-btn" id="btn-login"><span>🔵</span> Log Masuk dengan Google</button>
+      <button class="btn btn-sec" id="btn-login-admin-pin" style="margin-top:10px;border-color:#f59e0b;color:#fcd34d;background:var(--surface2)">🔐 Login sebagai Admin</button>
+      <div id="admin-pin-box" style="display:none;flex-direction:column;gap:10px;margin-top:10px;">
+        <input id="admin-pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="Masukkan PIN (4-6 digit)" style="width:100%;background:var(--surface2);border:1px solid #f59e0b;border-radius:999px;color:white;padding:12px;font-size:1.2rem;text-align:center;outline:none;letter-spacing:.3em;">
+        <button class="btn" id="btn-confirm-admin-pin" style="background:linear-gradient(135deg,#d97706,#b45309);box-shadow:0 6px 18px rgba(217,119,6,.3);">Masuk</button>
+      </div>
       <p style="text-align:center;font-size:.72rem;color:var(--subtext);margin-top:14px">Data disimpan selamat di Firebase Cloud</p>
-    </div>
+        </div>
   </section>
 
   <!-- HOME -->
@@ -358,7 +363,10 @@
         <div class="topbar-title">📚 Senarai Kamus</div>
         <div style="font-size:.72rem;color:var(--subtext)" id="home-email"></div>
       </div>
-      <button class="btn btn-sec btn-sm" id="btn-logout">Log Keluar</button>
+<div style="display:flex;gap:6px">
+        <button class="btn btn-sec btn-sm" id="btn-setup-admin-pin" style="display:none;border-color:#f59e0b;color:#fcd34d">🔐 PIN</button>
+        <button class="btn btn-sec btn-sm" id="btn-logout">Log Keluar</button>
+      </div>
     </div>
     <div class="search-wrap flex-0">
       <span class="search-icon">🔍</span>
@@ -455,9 +463,9 @@
 
 <script type="module">
   import{initializeApp}from"https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-  import{getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged,setPersistence,browserLocalPersistence}
+import{getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged,setPersistence,browserLocalPersistence,EmailAuthProvider,linkWithCredential,signInWithEmailAndPassword,updatePassword}
     from"https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-  import{getFirestore,doc,collection,addDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,where,orderBy}
+    import{getFirestore,doc,collection,addDoc,updateDoc,deleteDoc,onSnapshot,getDocs,query,where,orderBy}
     from"https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
   import{getStorage,ref as sRef,uploadBytesResumable,getDownloadURL,deleteObject}
     from"https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
@@ -526,9 +534,10 @@
   onAuthStateChanged(auth,async user=>{
     currentUser=user;
     if(user){
-      document.getElementById('home-email').textContent=user.email;
+   document.getElementById('home-email').textContent=user.email;
       await cleanupOld();
       subscribeKamus();
+      checkShowAdminPinBtn();
       goTo('section-home');
     }else{
       [kamusUnsub,pagesUnsub,bukuUnsub].forEach(u=>u&&u());
@@ -1141,6 +1150,64 @@ document.getElementById('viewer-download').onclick=async()=>{
     if(e.key==='ArrowLeft')nav(-1);if(e.key==='ArrowRight')nav(1);
   });
 
+// ══════════════════════════════════════════
+  // ADMIN PIN LOGIN
+  // ══════════════════════════════════════════
+  const ADMIN_EMAIL='adha86614@gmail.com';
+
+  function checkShowAdminPinBtn(){
+    const btn=document.getElementById('btn-setup-admin-pin');
+    if(btn)btn.style.display=(currentUser&&currentUser.email===ADMIN_EMAIL)?'inline-flex':'none';
+  }
+
+  document.getElementById('btn-login-admin-pin').addEventListener('click',()=>{
+    const box=document.getElementById('admin-pin-box');
+    const isOpen=box.style.display==='flex';
+    box.style.display=isOpen?'none':'flex';
+    if(!isOpen)setTimeout(()=>document.getElementById('admin-pin-input').focus(),80);
+  });
+
+  async function cubaLoginPin(){
+    const pin=document.getElementById('admin-pin-input').value.trim();
+    if(!pin||!/^\d{4,6}$/.test(pin)){showToast('PIN mesti 4-6 digit angka sahaja.');return}
+    try{
+      document.getElementById('btn-confirm-admin-pin').textContent='Mengesahkan...';
+      await signInWithEmailAndPassword(auth,ADMIN_EMAIL,pin);
+      document.getElementById('admin-pin-input').value='';
+      document.getElementById('admin-pin-box').style.display='none';
+    }catch(e){
+      document.getElementById('btn-confirm-admin-pin').textContent='Masuk';
+      if(e.code==='auth/wrong-password'||e.code==='auth/invalid-credential')
+        showToast('❌ PIN salah. Cuba lagi.');
+      else if(e.code==='auth/user-not-found')
+        showToast('❌ PIN belum ditetapkan. Login Google dulu, kemudian Setup PIN.');
+      else showToast('❌ '+e.message);
+    }
+  }
+
+  document.getElementById('btn-confirm-admin-pin').addEventListener('click',cubaLoginPin);
+  document.getElementById('admin-pin-input').addEventListener('keydown',e=>{
+    if(e.key==='Enter')cubaLoginPin();
+  });
+
+  document.getElementById('btn-setup-admin-pin').addEventListener('click',async()=>{
+    if(!currentUser||currentUser.email!==ADMIN_EMAIL){showToast('Hanya admin boleh setup PIN.');return}
+    const pin=prompt('Tetapkan PIN Admin baru (4-6 digit angka):');
+    if(!pin||!/^\d{4,6}$/.test(pin)){showToast('PIN mesti 4-6 digit angka sahaja.');return}
+    try{
+      const credential=EmailAuthProvider.credential(ADMIN_EMAIL,pin);
+      try{
+        await linkWithCredential(currentUser,credential);
+        showToast('✅ PIN Admin berjaya ditetapkan!');
+      }catch(linkErr){
+        if(linkErr.code==='auth/provider-already-linked'||linkErr.code==='auth/email-already-in-use'){
+          await updatePassword(currentUser,pin);
+          showToast('✅ PIN Admin berjaya dikemas kini!');
+        }else throw linkErr;
+      }
+    }catch(e){showToast('❌ Gagal: '+e.message)}
+  });
+  
   if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
 </script>
 </body>
